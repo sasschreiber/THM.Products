@@ -7,8 +7,8 @@
 	<p>Some data set by the controller:</p>
 	<ul>
 		
-		<f:for each="{foos}" as="foo">
-			<li>{foo}</li>
+		<f:for each="{products}" as="product">
+			<li><f:link.action action="index" arguments="{product : product}">{product.title}</f:link.action></li>
 		</f:for>
 		
 	</ul>

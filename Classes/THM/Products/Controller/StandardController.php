@@ -14,9 +14,11 @@ class StandardController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	 * @return void
 	 */
 	public function indexAction() {
-		$this->view->assign('foos', array(
-			'bar', 'baz'
-		));
+		if ($this->request->hasArgument("product")) {
+			$this->redirect("show", "Product", NULL, $this->request->getArguments());
+		}
+		$this->redirect("list", "Product", NULL, $this->request->getArguments());
 	}
+
 
 }

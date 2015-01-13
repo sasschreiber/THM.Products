@@ -1,0 +1,11 @@
+<f:layout name="Default" />
+
+<f:section name="Title">Create a new product</f:section>
+
+<f:section name="Content">
+
+<f:form method="post" action="create" object="{product}" name="product" enctype="multipart/form-data">
+        Title: <f:form.textfield property="title" name="title" />
+        <f:form.submit value="Create Product"/>
+</f:form>
+</f:section>

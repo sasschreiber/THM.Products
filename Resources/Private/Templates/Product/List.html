@@ -1,0 +1,17 @@
+<f:layout name="Default" />
+
+<f:section name="Title">Products List Action</f:section>
+
+<f:section name="Content">
+	<ul>
+		
+		<f:for each="{products}" as="product">
+			<li><f:link.action action="show" arguments="{product : product}">{product.title}</f:link.action></li>
+		</f:for>
+		
+	</ul>
+
+<f:link.action action="new">Create new product</f:link.action>
+
+<f:link.action action="createDummy">Create dummy products</f:link.action>
+</f:section>

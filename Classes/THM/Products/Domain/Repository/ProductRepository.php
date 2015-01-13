@@ -14,6 +14,31 @@ use TYPO3\Flow\Persistence\Repository;
  */
 class ProductRepository extends Repository {
 
-	// add customized methods here
+	/**
+	* @var \TYPO3\Flow\Persistence\Doctrine\PersistenceManager
+	* @Flow\Inject
+	*/
+	protected $persistenceManager;
+
+	/**
+	* @return void
+	*/
+	public function createDummyProducts() {
+		$productList = array(
+			0 => "Dummy1",
+			1 => "Dummy2",
+			2 => "Dummy3"
+		);
+
+		foreach ($productList as $item) {
+			$product = new \THM\Products\Domain\Model\Product();
+			$product->setTitle($item);
+			$this->add($product);
+		}
+
+		$this->persistenceManager->persistAll();
+
+
+	}
 
 }
