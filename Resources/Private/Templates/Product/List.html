@@ -9,26 +9,7 @@
 
 <f:section name="Content">
 
-	<div class="table-responsive">
-		<table class="table table-striped">
-			<thead>
-			<tr >
-				<th>Productname</th>
-			</tr>
-			</thead>
-			<tbody>
-			<f:for each="{products}" as="product">
-				<tr>
-					<td>
-						<f:link.action action="show" arguments="{product : product}">
-							{product.title}
-						</f:link.action>
-					</td>
-				</tr>
-			</f:for>
-			</tbody>
-		</table>
-	</div>
+<f:render partial="Product/List" arguments="{products:products}"/>
 <f:link.action action="new">Create new product</f:link.action>
 
 <f:link.action action="createDummy">Create dummy products</f:link.action>

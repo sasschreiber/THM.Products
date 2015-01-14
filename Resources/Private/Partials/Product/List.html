@@ -1,0 +1,20 @@
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+			<tr >
+				<th>Productname</th>
+			</tr>
+			</thead>
+			<tbody>
+			<f:for each="{products}" as="product">
+				<tr>
+					<td>
+						<f:link.action action="show" arguments="{product : product}">
+							{product.title}
+						</f:link.action>
+					</td>
+				</tr>
+			</f:for>
+			</tbody>
+		</table>
+	</div>

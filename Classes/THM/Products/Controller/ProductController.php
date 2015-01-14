@@ -21,7 +21,7 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	* @return void
 	*/
 	public function listAction() {
-		$products = $this->productRepository->findAll();
+		$products = $this->productRepository->findByParent(NULL);
 		$this->view->assign("products", $products);
 	}
 
