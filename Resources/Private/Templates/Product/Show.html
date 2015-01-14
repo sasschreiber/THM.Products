@@ -19,10 +19,9 @@
 <f:if condition="{product.children}">
 	<h2>Child products:</h2>
 	<f:render partial="Product/List" arguments="{products : product.children}" />
-
-	<f:link.action action="new" arguments="{parent : product}">Create new child product</f:link.action>
 	<br>
 </f:if>
+	<f:link.action action="new" arguments="{parent : product}">Create new child product</f:link.action>
 
 <f:link.action action="list">Back to list</f:link.action>
 </f:section>
