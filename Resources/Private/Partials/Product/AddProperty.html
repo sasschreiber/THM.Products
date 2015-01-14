@@ -1,0 +1,7 @@
+<h2>Add a new property</h2>
+<f:form method="post" action="addProperty" object="{property}" name="property" enctype="multipart/form-data">
+	<f:form.hidden property="product" value="{product}" />
+        Name: <f:form.textfield property="name" name="name" /><br>
+        Content: <f:form.textarea property="content" name="content" /><br>
+        <f:form.submit value="Create Property"/>
+</f:form>

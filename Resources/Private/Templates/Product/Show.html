@@ -7,5 +7,14 @@
 	<li>Title: {product.title}</li>
 </ul>
 
+<h2>Properties:</h2>
+<ul>
+	<f:for each="{product.properties}" as="property">
+		<li><b>{property.name}</b>: {property.content}</li>
+	</f:for>
+</ul>
+
+<f:render partial="Product/AddProperty" arguments="{product : product}"/>
+
 <f:link.action action="list">Back to list</f:link.action>
 </f:section>

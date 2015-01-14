@@ -53,6 +53,17 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		$this->redirect("show", NULL, NULL, array("product"=>$product));
 	}
 
+	/**
+	* @param \THM\Products\Domain\Model\Property $property
+	* @return void
+	*/
+	public function addPropertyAction(\THM\Products\Domain\Model\Property $property) {
+		$product = $property->getProduct();
+		$product->addProperty($property);
+		$this->productRepository->update($product);
+		$this->redirect("show", NULL, NULL, array("product"=>$product));
+	}
+
 
 
 }

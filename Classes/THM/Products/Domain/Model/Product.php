@@ -63,7 +63,7 @@ class Product {
      * @return void
      */
     public function addProperty(\THM\Products\Domain\Model\Property $property) {
-      $this->properties->attach($property);
+      $this->properties->add($property);
     }
     
     /**
@@ -71,7 +71,7 @@ class Product {
      * @return void
      */
     public function removeProperty(\THM\Products\Domain\Model\Property $property) {
-      $this->properties->detach($property);
+      $this->properties->remove($property);
     }
 
 
