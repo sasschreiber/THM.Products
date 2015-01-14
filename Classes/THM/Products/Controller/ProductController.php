@@ -33,12 +33,6 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		$this->view->assign("product", $product);
 	}
 
-	public function createDummyAction() {
-		$this->productRepository->removeAll();
-		$this->productRepository->createDummyProducts();
-		$this->redirect("list");
-	}
-
 	public function newAction(\THM\Products\Domain\Model\Product $parent = NULL) {
 		$this->view->assign("parent", $parent);
 	}
