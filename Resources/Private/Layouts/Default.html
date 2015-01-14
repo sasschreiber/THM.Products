@@ -39,14 +39,14 @@ Todo: auslagern und eigene Action anlegen
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">THM.products</a>
+				<f:link.action action="list" class="navbar-brand">THM.products</f:link.action>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<form class="navbar-form navbar-right hidden" role="search">
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Produksuche">
+						<input type="text" class="form-control" placeholder="Produktsuche">
 					</div>
 					<!--<button type="submit" class="btn btn-default">Submit</button>-->
 				</form>
@@ -76,8 +76,9 @@ Todo: auslagern und eigene Action anlegen
 	<!-- ************ Menu End *********** -->
 
 
-
+	<!--container fluid start-->
 	<div class="container-fluid">
+		<!--row start-->
 		<div class="row">
 
 
@@ -103,7 +104,7 @@ Todo: auslagern und eigene Action anlegen
 			</div>
 			<!-- ************ sidebar End *********** -->
 
-
+			<!-- Main Start -->
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
 					<!--Content Section-->
@@ -111,8 +112,11 @@ Todo: auslagern und eigene Action anlegen
 
 					<h1><f:render section="Title" /></h1>
 					<f:render section="Content" />
+			<!--Main End-->
 				</div>
+			<!--Row end-->
 			</div>
+		<!--container fluid end-->
 		</div>
 
 
