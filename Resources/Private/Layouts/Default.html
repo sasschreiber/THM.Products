@@ -1,16 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 	<head>
 		<meta charset="utf-8">
-		<f:render section="AdditionalCss" optional="true"/>
-		<link rel="stylesheet" href="{f:uri.resource(path: 'Css/Main.css')}" type="text/css" media="all" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+
 		<title><f:render section="Title" /></title>
+
+		<!-- Bootstrap core CSS -->
+		<link rel="stylesheet" href="{f:uri.resource(path: 'Css/style.css')}" type="text/css" media="all" />
+
+		<f:render section="AdditionalCss" optional="true"/>
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
 		<f:base />
 	</head>
-	<body>
-		<f:flashMessages class="flashmessages" />
 
-		<h1><f:render section="Title" /></h1>
-		<f:render section="Content" />
+	<body>
+	<!-- ****************************
+Menu Start
+Todo: auslagern und eigene Action anlegen
+****************************  -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">THM.products</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<form class="navbar-form navbar-right hidden" role="search">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Produksuche">
+					</div>
+					<!--<button type="submit" class="btn btn-default">Submit</button>-->
+				</form>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Produkt <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">Produkt hinzufügen</a></li>
+							<li><a href="#">Produkt bearbeiten</a></li>
+							<li><a href="#">Produkt löschen</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Katalog <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">Katalog bearbeiten</a></li>
+							<li class="divider"></li>
+							<li><a href="#">Neuen Katalog anlegen</a></li>
+							<li><a href="#">Ausgewählten Katalog löschen</a></li>
+						</ul>
+					</li>
+				</ul>
+
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+	<!-- ************ Menu End *********** -->
+
+
+
+	<div class="container-fluid">
+		<div class="row">
+
+
+			<!--  ************************
+            start productcatalog categories & subcategories overview sidebar
+            Todo: eigene Action anlegen und auslagern
+            ************************ -->
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li class="active"><a href="#">Produkkatalog</a></li>
+					<li>
+						<ul class="nav nav-sidebar" >
+							<li><a href="">Kategorie1</a></li>
+							<li>
+								<ul class="nav nav-sidebar">
+									<li><a href="">Sub-Kategorie1</a></li>
+								</ul>
+							</li>
+							<li><a href="">Kategorie3</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<!-- ************ sidebar End *********** -->
+
+
+				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+					<!--Content Section-->
+					<f:flashMessages class="flashmessages" />
+
+					<h1><f:render section="Title" /></h1>
+					<f:render section="Content" />
+				</div>
+			</div>
+		</div>
+
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="{f:uri.resource(path: 'Js/jquery.min.js')}"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="{f:uri.resource(path: 'Js/bootstrap.js')}"></script>
 	</body>
 </html>

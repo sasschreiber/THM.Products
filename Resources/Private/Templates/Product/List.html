@@ -1,17 +1,36 @@
 <f:layout name="Default" />
 
 <f:section name="Title">Products List Action</f:section>
+<strong>Katalogbeschreibung</strong>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+	Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+	Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
+	Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
 
 <f:section name="Content">
-	<ul>
-		
-		<f:for each="{products}" as="product">
-			<li><f:link.action action="show" arguments="{product : product}">{product.title}</f:link.action></li>
-		</f:for>
-		
-	</ul>
 
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+			<tr >
+				<th>Productname</th>
+			</tr>
+			</thead>
+			<tbody>
+			<f:for each="{products}" as="product">
+				<tr>
+					<td>
+						<f:link.action action="show" arguments="{product : product}">
+							{product.title}
+						</f:link.action>
+					</td>
+				</tr>
+			</f:for>
+			</tbody>
+		</table>
+	</div>
 <f:link.action action="new">Create new product</f:link.action>
 
 <f:link.action action="createDummy">Create dummy products</f:link.action>
 </f:section>
+</div>
