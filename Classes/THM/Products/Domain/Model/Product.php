@@ -39,7 +39,7 @@ class Product {
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Property>
-     * @ORM\ManyToMany
+     * @ORM\OneToMany(mappedBy="product")
      */
     protected $properties;
     

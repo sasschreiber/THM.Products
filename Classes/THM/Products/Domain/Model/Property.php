@@ -58,5 +58,26 @@ class Property {
 	public function setContent($content) {
 	  $this->content = $content;
 	}
+	
+	/**
+	 * @var \THM\Products\Domain\Model\Product $product
+	 * @ORM\ManyToOne(inversedBy="properties")
+	 */
+	protected $product;
+	
+	/**
+	 * @return \THM\Products\Domain\Model\Product
+	 */
+	public function getProduct() {
+	  return $this->product;
+	}
+	
+	/**
+	 * @param \THM\Products\Domain\Model\Product $product
+	 * @return void
+	 */
+	public function setProduct(\THM\Products\Domain\Model\Product $product) {
+	  $this->product = $product;
+	}
 
 }
