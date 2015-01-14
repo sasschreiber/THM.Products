@@ -39,8 +39,8 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		$this->redirect("list");
 	}
 
-	public function newAction() {
-
+	public function newAction(\THM\Products\Domain\Model\Product $parent = NULL) {
+		$this->view->assign("parent", $parent);
 	}
 
 	/**

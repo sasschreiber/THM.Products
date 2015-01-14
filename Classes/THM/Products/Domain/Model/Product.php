@@ -75,4 +75,63 @@ class Product {
     }
 
 
+    /**
+     * @var \THM\Products\Domain\Model\Product $parent
+     * @ORM\ManyToOne(inversedBy="children")
+     */
+    protected $parent;
+    
+    /**
+     * @return \THM\Products\Domain\Model\Product
+     */
+    public function getParent() {
+      return $this->parent;
+    }
+    
+    /**
+     * @param \THM\Products\Domain\Model\Product $parent
+     * @return void
+     */
+    public function setParent(\THM\Products\Domain\Model\Product $parent) {
+      $this->parent = $parent;
+    }
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Product>
+     * @ORM\OneToMany(mappedBy="parent")
+     */
+    protected $children;
+    
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Product>
+     */
+    public function getChildren() {
+      return $this->children;
+    }
+    
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Product> $children
+     * @return void
+     */
+    public function setChildren(\Doctrine\Common\Collections\ArrayCollection $children) {
+      $this->children = $children;
+    }
+    
+    /**
+     * @param \THM\Products\Domain\Model\Product $child
+     * @return void
+     */
+    public function addChild(\THM\Products\Domain\Model\Product $child) {
+      $this->children->add($child);
+    }
+    
+    /**
+     * @param \THM\Products\Domain\Model\Product $child
+     * @return void
+     */
+    public function removeChild(\THM\Products\Domain\Model\Product $child) {
+      $this->children->remove($child);
+    }
+
+
 }

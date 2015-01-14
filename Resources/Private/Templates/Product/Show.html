@@ -16,5 +16,14 @@
 
 <f:render partial="Product/AddProperty" arguments="{product : product}"/>
 
+<h2>Child products:</h2>
+<ul>
+	<f:for each="{product.children}" as="child">
+		<li><f:link.action action="show" arguments="{product : child}">{product.title}</f:link.action></li>
+	</f:for>
+</ul>
+<f:link.action action="new" arguments="{parent : product}">Create new child product</f:link.action>
+<br>
+
 <f:link.action action="list">Back to list</f:link.action>
 </f:section>

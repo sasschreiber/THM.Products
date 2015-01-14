@@ -5,6 +5,7 @@
 <f:section name="Content">
 
 <f:form method="post" action="create" object="{product}" name="product" enctype="multipart/form-data">
+		<f:form.hidden name="parent" property="parent" value="{parent}" />
         Title: <f:form.textfield property="title" name="title" />
         <f:form.submit value="Create Product"/>
 </f:form>
