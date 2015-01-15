@@ -1,7 +1,70 @@
-<h2>Add a new property</h2>
-<f:form method="post" action="addProperty" object="{property}" name="property" enctype="multipart/form-data">
-	<f:form.hidden property="product" value="{product}" />
-        Name: <f:form.textfield property="name" name="name" /><br>
-        Content: <f:form.textarea property="content" name="content" /><br>
-        <f:form.submit value="Create Property"/>
-</f:form>
+<div class="row">
+<div class="col-md-5">
+<div class="slideOut">
+        <div class="panel-heading panel-collapsed btn btn-default btn-sm" aria-label="Left Align">
+                <strong class="panel-title">Add a new property</strong>
+                <span class="clickable"><i class="glyphicon glyphicon-chevron-down"></i></span>
+
+        </div>
+        <div class="panel-body" style="display: none;">
+                <f:form method="post" action="addProperty" object="{property}" name="property" enctype="multipart/form-data">
+                    <f:form.hidden property="product" value="{product}" />
+                        <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Name</span>
+                        <f:form.textfield property="name" name="name" class="form-control" />
+                        </div>
+                        <br>
+                        <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">Content:</span>
+                                <f:form.textarea property="content" name="content" class="form-control" />
+                        </div>
+                        <br>
+                        <f:form.submit value="Create Property" class="btn btn-default btn-md"/>
+                </f:form>
+
+        </div>
+</div>
+</div>
+</div>
+
+<f:section name="AdditionalScripts">
+<script type="text/javascript">
+        jQuery(function ($) {
+                $('.panel-heading').load(function (e) {
+                        if ($(this).hasClass('panel-collapsed')) {
+                                // collapse the panel
+                                $(this).parents('.slideOut').find('.panel-body').slideUp();
+                                $(this).parents('.slideOut').removeClass('panel panel-default');
+                                $(this).addClass('panel-collapsed btn btn-default btn-sm');
+                                $(this).find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+
+
+                        }
+                        else {
+                                // expand the panel
+                                $(this).parents('.slideOut').find('.panel-body').slideDown();
+                                $(this).parents('.slideOut').addClass('panel panel-default');
+                                $(this).removeClass('panel-collapsed btn btn-default btn-sm');
+                                $(this).find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                        }
+                });
+                $('.panel-heading').on("click", function (e) {
+                        if ($(this).hasClass('panel-collapsed')) {
+                                // expand the panel
+                                $(this).parents('.slideOut').find('.panel-body').slideDown();
+                                $(this).parents('.slideOut').addClass('panel panel-default');
+                                $(this).removeClass('panel-collapsed btn btn-default btn-sm');
+                                $(this).find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+
+                        }
+                        else {
+                                // collapse the panel
+                                $(this).parents('.slideOut').find('.panel-body').slideUp();
+                                $(this).parents('.slideOut').removeClass('panel panel-default');
+                                $(this).addClass('panel-collapsed btn btn-default btn-sm');
+                                $(this).find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+                        }
+                });
+        });
+</script>
+</f:section>

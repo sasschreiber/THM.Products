@@ -1,27 +1,33 @@
 <f:layout name="Default" />
 
-<f:section name="Title">View Product {product.title}</f:section>
+<f:section name="Title">Product: {product.title}</f:section>
 
 <f:section name="Content">
-<ul>
-	<li>Title: {product.title}</li>
-</ul>
+	<strong>Title:</strong> {product.title}
 
-<h2>Properties:</h2>
-<ul>
-	<f:for each="{product.properties}" as="property">
-		<li><b>{property.name}</b>: {property.content}</li>
-	</f:for>
-</ul>
+		<br>
+	<h4>Properties:</h4>
+	<ul>
+		<f:for each="{product.properties}" as="property">
+			<li><strong>{property.name}</strong>: {property.content}</li>
+		</f:for>
+	</ul>
 
-<f:render partial="Product/AddProperty" arguments="{product : product}"/>
+	<f:render partial="Product/AddProperty" arguments="{product : product}"/>
 
-<f:if condition="{product.children}">
-	<h2>Child products:</h2>
-	<f:render partial="Product/List" arguments="{products : product.children}" />
-	<br>
-</f:if>
-	<f:link.action action="new" arguments="{parent : product}">Create new child product</f:link.action>
-
-<f:link.action action="list">Back to list</f:link.action>
+		<br>
+		<br>
+	<f:if condition="{product.children}">
+		<h4>Children of {product.title}</h4>
+		<f:render partial="Product/List" arguments="{products : product.children}" />
+		<br>
+	</f:if>
+	<f:link.action class="btn btn-default btn-md" action="new" arguments="{parent : product}">
+		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		Create new child product
+	</f:link.action>
+	<f:link.action class="btn btn-default btn-md" action="list">
+		<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+		Show list
+	</f:link.action>
 </f:section>

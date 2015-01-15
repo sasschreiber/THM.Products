@@ -1,16 +1,15 @@
 <f:layout name="Default" />
 
-<f:section name="Title">Products List Action</f:section>
-<strong>Katalogbeschreibung</strong>
-<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-	Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-	Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
-	Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
+<f:section name="Title">Top level products</f:section>
 
 <f:section name="Content">
 
 <f:render partial="Product/List" arguments="{products:products}"/>
-<f:link.action action="new">Create new product</f:link.action>
+
+		<f:link.action action="new" class="btn btn-default btn-md">
+			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+			Create new product
+		</f:link.action>
 
 </f:section>
 </div>
