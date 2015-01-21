@@ -1,3 +1,4 @@
+
 <f:layout name="Default" />
 
 <f:section name="Title">Product: {product.title}</f:section>
@@ -6,10 +7,18 @@
 	<strong>Title:</strong> {product.title}
 
 		<br>
+	<f:for each="{product.properties}" as="property">
+		<f:if condition="{0: property.name} == {0: 'Beschreibung'}">
+			<strong>{property.name}</strong>: {property.content}
+		</f:if>
+	</f:for>
+	<br>
 	<h4>Properties:</h4>
 	<ul>
 		<f:for each="{product.properties}" as="property">
-			<li><strong>{property.name}</strong>: {property.content}</li>
+			<f:if condition="{0: property.name} != {0: 'Beschreibung'}">
+				<li><strong>{property.name}</strong>: {property.content}</li>
+			</f:if>
 		</f:for>
 	</ul>
 
@@ -28,6 +37,14 @@
 	</f:link.action>
 	<f:link.action class="btn btn-default btn-md" action="list">
 		<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-		Show list
+		Back to List
 	</f:link.action>
+
+	<f:if condition="{product.parent}">
+	<f:link.action class="btn btn-default btn-md" arguments="{product : product.parent}" action="show">
+		<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+		Show parent
+	</f:link.action>
+	</f:if>
+	<!-- f:render partial="Product/ParentStructure" arguments="{product : product}"  -->
 </f:section>

@@ -1,0 +1,30 @@
+<!--  ************************
+            start productcatalog categories & subcategories overview sidebar
+            not nice!
+            ************************ -->
+<div class="col-sm-3 col-md-2 sidebar">
+
+
+        <f:if condition="product.parent.parent">
+            <ul class="nav nav-sidebar">
+            <li><f:link.action action="show" arguments="{product : product.parent.parent}">
+                {product.parent.parent.title}
+            </f:link.action>
+            </li>
+            <li>
+        </f:if>
+        <f:if condition="product.parent">
+            <ul class="nav nav-sidebar">
+            <li><f:link.action action="show" arguments="{product : product.parent}">
+                {product.parent.title}
+            </f:link.action>
+            </li>
+            <li>
+        </f:if>
+                <ul class="nav nav-sidebar">
+                    <li class="active"><f:link.action action="show" arguments="{product : product}">{product.title}</f:link.action></li>
+                </ul>
+
+
+</div>
+<!-- ************ sidebar End *********** -->
