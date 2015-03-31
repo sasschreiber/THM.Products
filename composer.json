@@ -1,15 +1,26 @@
 {
-    "name": "thm/products",
-    "type": "typo3-flow-package",
-    "description": "Add description here",
-    "require": {
-        "typo3/flow": "*",
-        "doctrine/couchdb": "dev-master",
-        "doctrine/couchdb-odm": "dev-master"       
-    },
-    "autoload": {
-        "psr-0": {
-            "THM\\Products": "Classes"
-        }
-    }
+	"name": "thm/products",
+	"type": "typo3-flow-package",
+	"description": "Add description here",
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/sasschreiber/TYPO3.CouchDB.git"
+		},
+		{
+			"type": "vcs",
+			"url": "https://github.com/radmiraal/Radmiraal.CouchDB.git"
+		}
+	],
+
+	"require": {
+		"typo3/flow": "*",
+		"typo3/couchdb": "dev-master",
+		"radmiraal/couchdb": "2.0.x-dev"
+	},
+	"autoload": {
+		"psr-0": {
+			"THM\\Products": "Classes"
+		}
+	}
 }
