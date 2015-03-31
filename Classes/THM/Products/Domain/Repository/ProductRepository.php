@@ -7,7 +7,6 @@ namespace THM\Products\Domain\Repository;
  *                                                                        */
 
 use TYPO3\Flow\Annotations as Flow;
-//use TYPO3\Flow\Persistence\Repository;
 use Radmiraal\CouchDB\Persistence\AbstractRepository;
 
 /**
@@ -15,6 +14,6 @@ use Radmiraal\CouchDB\Persistence\AbstractRepository;
  */
 class ProductRepository extends AbstractRepository {
 
-//	const ENTITY_CLASSNAME = '\THM\Products\Domain\Model\Product';
+//	const ENTITY_CLASSNAME = 'THM\Products\Domain\Model\Product';
 
 }
