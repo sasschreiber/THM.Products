@@ -7,22 +7,33 @@ namespace THM\Products\Domain\Model;
  *                                                                        */
 
 use TYPO3\Flow\Annotations as Flow;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ODM\CouchDB\Mapping\Annotations as ODM,
+	Radmiraal\CouchDB\Persistence\AbstractDocument;
 
 /**
- * @Flow\Entity
+ * @ODM\Document
  */
-class Property {
+class Property extends AbstractDocument{
 
 	/**
-	* @var string
-    * @Flow\Validate(type="Text")
-    * @Flow\Validate(type="StringLength", options={ "minimum"=2, "maximum"=80 })
-    * @ORM\Column(length=80)
-	*/
+	 * @var string
+	 *
+	 * @ODM\Field(type="string")
+     * @Flow\Validate(type="Text")
+     * @Flow\Validate(type="StringLength", options={ "minimum"=2, "maximum"=80 })
+	 */
 	protected $name;
+
+	/**
+	 * @var string
+	 *
+	 * @Flow\Validate(type="Text")
+	 * @ODM\Field(type="string")
+	 */
+	protected $content;
 	
 	/**
+	 *
 	 * @return string
 	 */
 	public function getName() {
@@ -36,13 +47,6 @@ class Property {
 	public function setName($name) {
 	  $this->name = $name;
 	}
-
-	/**
-	* @var string
-    * @Flow\Validate(type="Text")
-    * @ORM\Column(type="text")
-	*/
-	protected $content;
 	
 	/**
 	 * @return string
@@ -58,12 +62,6 @@ class Property {
 	public function setContent($content) {
 	  $this->content = $content;
 	}
-	
-	/**
-	 * @var \THM\Products\Domain\Model\Product $product
-	 * @ORM\ManyToOne(inversedBy="properties")
-	 */
-	protected $product;
 	
 	/**
 	 * @return \THM\Products\Domain\Model\Product
