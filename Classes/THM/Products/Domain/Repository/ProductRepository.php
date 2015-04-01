@@ -14,6 +14,6 @@ use Radmiraal\CouchDB\Persistence\AbstractRepository;
  */
 class ProductRepository extends AbstractRepository {
 
-//	const ENTITY_CLASSNAME = 'THM\Products\Domain\Model\Product';
+	const ENTITY_CLASSNAME = 'THM\Products\Domain\Model\Product';
 
 }

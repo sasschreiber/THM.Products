@@ -40,3 +40,15 @@ jQuery(function ($) {
         }
     });
 });
+
+
+<!--Hide Flashmessage after 4000ms-->
+jQuery(function($) {
+    $(".flashmessage").fadeOut(4000, function() {
+        setTimeout($(this).remove(), 1000)
+    });
+});
+
+
+
+$('input[type="file"]').ezdz();
