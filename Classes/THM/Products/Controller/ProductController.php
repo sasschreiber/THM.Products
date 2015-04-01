@@ -78,6 +78,27 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		$this->redirect("show", NULL, NULL, array("product"=>$product));
 	}
 
+	
+	/**
+	* Delete products
+	* @param \THM\Products\Domain\Model\Product $product
+	**/
+	public function deleteAction(\THM\Products\Domain\Model\ Product $product) {
+		if ($product->getChildren()->count() > 0) {
+			$this->addFlashMessage("This Product still holds child products. Please delete them first.", "Warning", Message::SEVERITY_ERROR);
+		}
+		else {
+			$this->productRepository->remove($product);
+			$this->addFlashMessage("Product \"" . $product->getTitle() . "\" was deleted.", "Success", Message::SEVERITY_OK);
+		}
+
+		//Redirect to the correct spot (either list oder show, depending on the parent)
+		if ($product->getParent() != NULL) {
+			$this->redirect("show", NULL, NULL, array("product" => $product->getParent()));
+		}
+		$this->redirect("list");
+	}
+
 	/**
 	 * @param \THM\Products\Domain\Model\Property $property
 	 * @return void

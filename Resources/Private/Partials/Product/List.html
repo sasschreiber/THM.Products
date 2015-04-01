@@ -2,7 +2,7 @@
 		<table class="table table-striped">
 			<thead>
 			<tr >
-				<th>Productname</th>
+				<th colspan="2">Productname</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -13,6 +13,7 @@
 							{product.title}
 						</f:link.action>
 					</td>
+					<td><f:link.action action="delete" arguments="{product : product}">[DELETE]</f:link.action></td>
 				</tr>
 			</f:for>
 			</tbody>
