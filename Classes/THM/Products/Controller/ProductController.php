@@ -94,7 +94,7 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 
 		$product->addProperty($property);
 		$this->productRepository->update($product);
-		$this->redirect("show", NULL, NULL, array("product"=>$product));
+		$this->redirect($this->request->getReferringRequest()->getControllerActionName(), NULL, NULL, array("product"=>$product));
 	}
 
 	/**
