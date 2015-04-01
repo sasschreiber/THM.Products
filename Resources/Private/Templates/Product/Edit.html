@@ -1,11 +1,15 @@
 <f:layout name="Default" />
 
-<f:section name="Title">Edit Product: {product.title}</f:section>
-
 <f:section name="Content">
 
 	<f:form method="post" action="update" object="{product}" name="product" enctype="multipart/form-data">
 		<f:form.hidden property="id" value="{product.id}" />
+
+
+		<f:form.submit value="Update Product" class="btn btn-success btn-md pull-right"/>
+		<h1>Edit Product "{product.title}"</h1>
+		
+
 		<div class="input-group">
 			<span class="input-group-addon">Title:</span>
 			<f:form.textfield property="title" value="{product.title}" name="title" class="form-control"/>
@@ -28,30 +32,28 @@
 				</li>
 			</f:for>
 		</ul>
-
-		<f:form.submit value="Update Product" class="btn btn-default btn-md"/>
 	</f:form>
-
-	<f:render partial="Product/AddProperty" arguments="{product : product}"/>
-
-	<f:comment>
+	<br><br>
+	<div class="row">
 		<f:render partial="Product/AddProperty" arguments="{product : product}"/>
+	</div>
 
-		<br>
-		<br>
-		<f:if condition="{product.children}">
-			<h4>Children of {product.title}</h4>
-			<f:render partial="Product/List" arguments="{products : product.children}" />
-			<br>
-		</f:if>
-		<f:link.action class="btn btn-default btn-md" action="new" arguments="{parent : product}">
-			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-			Create new child product
-		</f:link.action>
-		<f:link.action class="btn btn-default btn-md" action="list">
-			<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-			Show list
-		</f:link.action>
-	</f:comment>
+
+	
+	<br>
+	<br>
+	<f:if condition="{product.children}">
+		<h4>Children of {product.title}</h4>
+		<f:render partial="Product/List" arguments="{products : product.children}" />
+		<br><br>
+	</f:if>
+	<f:link.action class="btn btn-default btn-md" action="new" arguments="{parent : product}">
+		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		Create new child product
+	</f:link.action>
+	<f:link.action class="btn btn-default btn-md" action="list">
+		<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+		Show list
+	</f:link.action>
 
 </f:section>

@@ -8,7 +8,7 @@
 		<meta name="author" content="">
 
 
-		<title><f:render section="Title" /></title>
+		<title><f:render section="Title" optional="true" /></title>
 
 		<!-- Bootstrap core CSS -->
 		<link rel="stylesheet" href="{f:uri.resource(path: 'Css/style.css')}" type="text/css" media="all" />
@@ -124,7 +124,7 @@ Todo: auslagern und eigene Action anlegen
 
             <!--Content Section-->
             <f:flashMessages class="alert alert-success flashmessage" />
-					<h1><f:render section="Title"/></h1>
+					<f:render section="Title" optional="true" />
 					<f:render section="Content" />
 			<!--Main End-->
 				</div>

@@ -1,6 +1,6 @@
 <f:layout name="Default" />
 
-<f:section name="Title">Product: {product.title}</f:section>
+<f:section name="Title"><h1>Product: {product.title}</h1></f:section>
 
 <f:section name="Content">
     <div class="row">
@@ -28,11 +28,7 @@
         </div>
         -->
     </div>
-    <div class="row">
 
-    <f:render partial="Product/AddProperty" arguments="{product : product}"/>
-
-    </div>
     <div class="row">
     <div class="col-md-12">
     <br>
@@ -48,10 +44,6 @@
             Show parent product
         </f:link.action>
     </f:if>
-    <f:link.action class="btn btn-default btn-md" action="new" arguments="{parent : product}">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        Create new child product
-    </f:link.action>
     <f:link.action class="btn btn-default btn-md" action="list">
         <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
         Show top level list
