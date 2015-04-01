@@ -1,0 +1,55 @@
+<f:layout name="Default" />
+
+<f:section name="Title">Edit Product: {product.title}</f:section>
+
+<f:section name="Content">
+
+	<f:form method="post" action="update" object="{product}" name="product" enctype="multipart/form-data">
+		<f:form.hidden property="id" value="{product.id}" />
+		<div class="input-group">
+			<span class="input-group-addon">Title:</span>
+			<f:form.textfield property="title" value="{product.title}" name="title" class="form-control"/>
+		</div>
+		<br>
+
+		<br>
+		<h4>Properties:</h4>
+		<ul>
+			<f:for each="{product.properties}" as="property" key="propertyKey">
+				<li>
+					<div class="input-group">
+						<span class="input-group-addon">Name:</span>
+						<f:form.textfield property="properties.{propertyKey}.name" value="{property.name}" name="title" class="form-control"/>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Content:</span>
+						<f:form.textfield property="properties.{propertyKey}.content" value="{property.content}" name="title" class="form-control"/>
+					</div>
+				</li>
+			</f:for>
+		</ul>
+
+		<f:form.submit value="Update Product" class="btn btn-default btn-md"/>
+	</f:form>
+
+	<f:comment>
+		<f:render partial="Product/AddProperty" arguments="{product : product}"/>
+
+		<br>
+		<br>
+		<f:if condition="{product.children}">
+			<h4>Children of {product.title}</h4>
+			<f:render partial="Product/List" arguments="{products : product.children}" />
+			<br>
+		</f:if>
+		<f:link.action class="btn btn-default btn-md" action="new" arguments="{parent : product}">
+			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+			Create new child product
+		</f:link.action>
+		<f:link.action class="btn btn-default btn-md" action="list">
+			<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+			Show list
+		</f:link.action>
+	</f:comment>
+
+</f:section>

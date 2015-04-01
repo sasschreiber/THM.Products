@@ -39,22 +39,6 @@ class Product {
 	 * @ODM\Index
 	 */
 	protected $isTopLevel;
-	
-	/**
-	 * @return boolean
-	 */
-	public function getIsTopLevel() {
-	  return $this->isTopLevel;
-	}
-	
-	/**
-	 * @param boolean $isTopLevel
-	 * @return void
-	 */
-	public function setIsTopLevel($isTopLevel) {
-	  $this->isTopLevel = $isTopLevel;
-	}
-
 
 	/**
 	 * @var \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Property>
@@ -70,7 +54,6 @@ class Product {
 	 */
 	protected $parent;
 
-
 	/**
 	 * @var \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Product>
 	 *
@@ -80,6 +63,35 @@ class Product {
 
 	public function __construct(){
 		$this->properties = new \Doctrine\Common\Collections\ArrayCollection();
+	}
+
+	/**
+	 * @param string $id
+	 */
+	public function setId($id) {
+		$this->id = $id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getId() {
+		return $this->id;
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function getIsTopLevel() {
+	  return $this->isTopLevel;
+	}
+	
+	/**
+	 * @param boolean $isTopLevel
+	 * @return void
+	 */
+	public function setIsTopLevel($isTopLevel) {
+	  $this->isTopLevel = $isTopLevel;
 	}
 
 	/**

@@ -39,9 +39,24 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	}
 
 	/**
-	* @param \THM\Products\Domain\Model\Product $product
-	* @return void
-	*/
+	 * @param \THM\Products\Domain\Model\Product $product
+	 */
+	public function editAction(\THM\Products\Domain\Model\Product $product) {
+		$this->view->assign('product', $product);
+	}
+
+	/**
+	 * @param \THM\Products\Domain\Model\Product $product
+	 */
+	public function updateAction(\THM\Products\Domain\Model\Product $product) {
+		$this->productRepository->update($product);
+		$this->redirect("edit", NULL, NULL, array("product"=>$product));
+	}
+
+	/**
+	 * @param \THM\Products\Domain\Model\Product $product
+	 * @return void
+	 */
 	public function createAction(\THM\Products\Domain\Model\Product $product) {
 
 		$this->productRepository->add($product);
