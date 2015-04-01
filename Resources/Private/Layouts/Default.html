@@ -61,16 +61,23 @@ Todo: auslagern und eigene Action anlegen
                                 </f:link.action>
                             </li>
                             <f:if condition="{product}">
-                                <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="divider"></li>
+                                <li class="presentation">
+                                    <f:link.action action="edit" class="menuitem"  arguments="{product : product}">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                        Edit product
+                                    </f:link.action>
+                                </li>
+                                
                                 <li class="presentation">
                                     <f:link.action action="new" class="menuitem"  arguments="{parent : product}">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                        <span class="glyphicon glyphicon-plus"></span>
                                         Create new child product
                                     </f:link.action>
                                 </li>
                                 <li class="presentation">
-                                    <f:link.action action="new" class="menuitem">
-                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                    <f:link.action action="delete" class="menuitem" arguments="{product : product}">
+                                        <span class="glyphicon glyphicon-remove"></span>
                                         Delete product
                                     </f:link.action>
                                 </li>
