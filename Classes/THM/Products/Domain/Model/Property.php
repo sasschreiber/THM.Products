@@ -25,6 +25,14 @@ class Property {
 	 */
 	protected $name;
 
+
+	/**
+	 * @var string $type
+	 *
+	 * @ODM\Field(type="string")
+	 */
+	protected $type;
+
 	/**
 	 * @var string
 	 *
@@ -62,6 +70,21 @@ class Property {
 	 */
 	public function setContent($content) {
 	  $this->content = $content;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getType() {
+	  return $this->type;
+	}
+	
+	/**
+	 * @param string $type
+	 * @return void
+	 */
+	public function setType($type) {
+	  $this->type = $type;
 	}
 
 }
