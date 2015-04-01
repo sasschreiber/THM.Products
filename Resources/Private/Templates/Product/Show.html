@@ -3,7 +3,8 @@
 <f:section name="Title">Product: {product.title}</f:section>
 
 <f:section name="Content">
-
+    <div class="row">
+        <div class="col-md-5">
     <br>
     <f:if condition="{product.properties}">
         <f:then>
@@ -19,12 +20,21 @@
             <p> Sorry, there are no properties to show.</p>
         </f:else>
     </f:if>
+        </div>
+        <!--
+        <div class="product-image col-md-7">
+            <img src="{f:uri.resource(path: 'Images/foo.png')}" class="img-responsive img-thumbnail" width="500px"/>
+
+        </div>
+        -->
+    </div>
     <div class="row">
 
     <f:render partial="Product/AddProperty" arguments="{product : product}"/>
 
     </div>
-
+    <div class="row">
+    <div class="col-md-12">
     <br>
 
     <f:if condition="{product.children}">
@@ -46,4 +56,8 @@
         <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
         Show top level list
     </f:link.action>
+
+    </div>
+    </div>
+
 </f:section>
