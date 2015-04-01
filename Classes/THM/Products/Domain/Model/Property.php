@@ -12,8 +12,9 @@ use Doctrine\ODM\CouchDB\Mapping\Annotations as ODM,
 
 /**
  * @ODM\Document
+ * @ODM\EmbeddedDocument
  */
-class Property extends AbstractDocument{
+class Property {
 
 	/**
 	 * @var string
@@ -61,21 +62,6 @@ class Property extends AbstractDocument{
 	 */
 	public function setContent($content) {
 	  $this->content = $content;
-	}
-	
-	/**
-	 * @return \THM\Products\Domain\Model\Product
-	 */
-	public function getProduct() {
-	  return $this->product;
-	}
-	
-	/**
-	 * @param \THM\Products\Domain\Model\Product $product
-	 * @return void
-	 */
-	public function setProduct(\THM\Products\Domain\Model\Product $product) {
-	  $this->product = $product;
 	}
 
 }

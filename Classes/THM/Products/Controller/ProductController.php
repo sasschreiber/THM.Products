@@ -7,6 +7,7 @@ namespace THM\Products\Controller;
  *                                                                        */
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Error\Message;
 
 class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 
@@ -22,6 +23,8 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	*/
 	public function listAction() {
 //		$products = $this->productRepository->findByParent(NULL);
+//		$products = $this->productRepository->findByParent('f49cb66745e5f0458ae108f2ff11781c');
+		$products = $this->productRepository->findByTitle('P 0000');
 		$products = $this->productRepository->findAll();
 		$this->view->assign("products", $products);
 	}
@@ -49,16 +52,50 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	}
 
 	/**
-	* @param \THM\Products\Domain\Model\Property $property
-	* @return void
-	*/
+	 * @param \THM\Products\Domain\Model\Property $property
+	 * @return void
+	 */
 	public function addPropertyAction(\THM\Products\Domain\Model\Property $property) {
-		$product = $property->getProduct();
+		try {
+			$productIdentifier = $this->request->getReferringRequest()->getArgument('product')['__identity'];
+		} catch (\TYPO3\Flow\Exception $exception) {
+			$this->addFlashMessage('Can not get identifier for Product from referring request.', 'Error accured while handling request.', Message::SEVERITY_ERROR);
+		}
+
+		/* @var $product \THM\Products\Domain\Model\Product */
+		$product = $this->productRepository->findByIdentifier($productIdentifier);
+
 		$product->addProperty($property);
 		$this->productRepository->update($product);
 		$this->redirect("show", NULL, NULL, array("product"=>$product));
 	}
 
+	/**
+	 * Only for development, please remove this action.
+	 */
+	public function removeAllAction(){
+		$this->productRepository->removeAll();
+		$this->productRepository->flushDocumentManager();
+		$this->redirect('list');
+	}
 
+	/**
+	 * Only for development, please remove this action.
+	 */
+	public function addFullyAction() {
+
+		$property = new \THM\Products\Domain\Model\Property();
+		$property->setName('Test');
+		$property->setContent('jhdfskjhslakjgh  jhlfkjhflksjhflkj');
+
+		$product = new \THM\Products\Domain\Model\Product();
+		$product->setTitle('Product 001');
+		$product->addProperty($property);
+
+
+		$this->productRepository->add($product);
+		$this->productRepository->flushDocumentManager();
+		$this->redirect('list');
+	}
 
 }

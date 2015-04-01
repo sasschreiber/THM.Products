@@ -11,9 +11,15 @@ use Doctrine\ODM\CouchDB\Mapping\Annotations as ODM,
 	Radmiraal\CouchDB\Persistence\AbstractDocument;
 
 /**
- * @ODM\Document
+ * @ODM\Document(indexed=true)
  */
-class Product extends AbstractDocument {
+class Product {
+
+	/**
+	 * @var string
+	 * @ODM\Id(type="string")
+	 */
+	protected $id;
 
 	/**
 	 * @var string
@@ -30,7 +36,7 @@ class Product extends AbstractDocument {
 	/**
 	 * @var \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Property>
 	 *
-	 * @ODM\EmbedMany(targetDocument="\THM\Products\Domain\Model\Property")
+	 * @ODM\EmbedMany(targetDocument="THM\Products\Domain\Model\Property")
 	 */
 	protected $properties;
 
@@ -48,6 +54,10 @@ class Product extends AbstractDocument {
 	 * @ODM\ReferenceMany(targetDocument="\THM\Products\Domain\Model\Product")
 	 */
 	protected $children;
+
+	public function __construct(){
+		$this->properties = new \Doctrine\Common\Collections\ArrayCollection();
+	}
 
 	/**
 	 * @return string
@@ -67,19 +77,17 @@ class Product extends AbstractDocument {
 	}
 
 	/**
-	 * @return \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Property>
+	 * @return \Doctrine\Common\Collections\ArrayCollection<THM\Products\Domain\Model\Property>
 	 */
-	public function getProperties()
-	{
+	public function getProperties() {
 		return $this->properties;
 	}
 
 	/**
-	 * @param \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Property> $properties
+	 * @param \Doctrine\Common\Collections\ArrayCollection<THM\Products\Domain\Model\Property> $properties
 	 * @return void
 	 */
-	public function setProperties(\Doctrine\Common\Collections\ArrayCollection $properties)
-	{
+	public function setProperties(\Doctrine\Common\Collections\ArrayCollection $properties) {
 		$this->properties = $properties;
 	}
 
