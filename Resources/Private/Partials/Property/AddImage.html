@@ -1,0 +1,17 @@
+
+<f:form method="post" action="addProperty" object="{property}" name="property" enctype="multipart/form-data" >
+    <f:form.hidden property="product" value="{product}" />
+    <div class="input-group">
+        <span class="input-group-addon" >Name</span>
+        <f:form.textfield property="name" name="name" class="form-control" />
+    </div>
+    <br>
+    <div class="input-group">
+        <span class="input-group-addon">Image</span>
+        <span>
+        <f:form.upload property="originalResource" name="image" class="form-control"/>
+            </span>
+    </div>
+    <br>
+    <f:form.submit value="Create Property" class="btn btn-default btn-md"/>
+</f:form>

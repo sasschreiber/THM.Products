@@ -1,0 +1,13 @@
+<f:form method="post" action="addProperty" object="{property}" name="property" enctype="multipart/form-data">
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">Name</span>
+        <f:form.textfield property="name" name="name" class="form-control" />
+    </div>
+    <br>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">Content</span>
+        <f:form.textfield property="content" name="content" class="form-control" />
+    </div>
+    <br>
+    <f:form.submit value="Create Property" class="btn btn-default btn-md"/>
+</f:form>

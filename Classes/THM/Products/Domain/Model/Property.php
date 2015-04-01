@@ -27,11 +27,11 @@ class Property {
 
 
 	/**
-	 * @var string $type
+	 * @var string $contenttype
 	 *
 	 * @ODM\Field(type="string")
 	 */
-	protected $type;
+	protected $contenttype;
 
 	/**
 	 * @var string
