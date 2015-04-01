@@ -75,7 +75,7 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		}
 		
 		$this->addFlashMessage("New product created!");
-		$this->redirect("show", NULL, NULL, array("product"=>$product));
+		$this->redirect("edit", NULL, NULL, array("product"=>$product));
 	}
 
 	

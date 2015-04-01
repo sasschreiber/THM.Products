@@ -44,16 +44,12 @@
 	<br>
 	<f:if condition="{product.children}">
 		<h4>Children of {product.title}</h4>
-		<f:render partial="Product/List" arguments="{products : product.children}" />
+		<f:render partial="Product/List" arguments="{products : product.children, edit : true}" />
 		<br><br>
 	</f:if>
 	<f:link.action class="btn btn-default btn-md" action="new" arguments="{parent : product}">
 		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 		Create new child product
-	</f:link.action>
-	<f:link.action class="btn btn-default btn-md" action="list">
-		<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-		Show list
 	</f:link.action>
 
 </f:section>
