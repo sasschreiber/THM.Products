@@ -34,6 +34,29 @@ class Product {
 
 
 	/**
+	 * @var boolean $isTopLevel
+	 * @ODM\Field(type="boolean")
+	 * @ODM\Index
+	 */
+	protected $isTopLevel;
+	
+	/**
+	 * @return boolean
+	 */
+	public function getIsTopLevel() {
+	  return $this->isTopLevel;
+	}
+	
+	/**
+	 * @param boolean $isTopLevel
+	 * @return void
+	 */
+	public function setIsTopLevel($isTopLevel) {
+	  $this->isTopLevel = $isTopLevel;
+	}
+
+
+	/**
 	 * @var \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Property>
 	 *
 	 * @ODM\EmbedMany(targetDocument="THM\Products\Domain\Model\Property")

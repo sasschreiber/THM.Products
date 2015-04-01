@@ -22,7 +22,7 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	* @return void
 	*/
 	public function listAction() {
-		$products = $this->productRepository->findAll();
+		$products = $this->productRepository->findByIsTopLevel(TRUE);
 		$this->view->assign("products", $products);
 	}
 
@@ -43,16 +43,22 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	* @return void
 	*/
 	public function createAction(\THM\Products\Domain\Model\Product $product) {
-		$this->productRepository->add($product);
 
+		$this->productRepository->add($product);
+		
 		//Add the product to its parents storage if necessary (because of the bidirectional relation)
 		$parent = $product->getParent();
 		if ($parent) {
 			$parent->addChild($product);
 			$this->productRepository->update($parent);			
 		}
-
-
+		else {
+			//Mark the product as top level if it has no parent
+			//This is necessary because we cannot use findByParent(NULL) for the list action
+			$product->setIsToplevel(TRUE);
+			$this->productRepository->update($product);
+		}
+		
 		$this->addFlashMessage("New product created!");
 		$this->redirect("show", NULL, NULL, array("product"=>$product));
 	}
