@@ -6,10 +6,11 @@
 		<f:form.hidden property="id" value="{product.id}" />
 		<f:form.hidden property="isTopLevel" value="{product.isTopLevel}" />
 
-
+        <f:link.action action="show" arguments="{product : product}" class="btn btn-default pull-right" style="margin-left: 10px;">
+            Exit Edit-Mode
+        </f:link.action>
 		<f:form.submit value="Update Product" class="btn btn-success btn-md pull-right"/>
-		<h1>Edit Product "{product.title}"</h1>
-		
+        <h1>Edit Product "{product.title}"</h1>
 
 		<div class="input-group">
 			<span class="input-group-addon">Title:</span>
@@ -19,9 +20,7 @@
 
 		<br>
 		<h4>Properties:</h4>
-		<ul>
 			<f:for each="{product.properties}" as="property" key="propertyKey">
-				<li>
 					<div class="input-group">
 						<span class="input-group-addon">Name:</span>
 						<f:form.textfield property="properties.{propertyKey}.name" value="{property.name}" name="title" class="form-control"/>
@@ -30,9 +29,8 @@
 						<span class="input-group-addon">Content:</span>
 						<f:form.textfield property="properties.{propertyKey}.content" value="{property.content}" name="title" class="form-control"/>
 					</div>
-				</li>
+                <br>
 			</f:for>
-		</ul>
 	</f:form>
 	<br><br>
 	<div class="row">

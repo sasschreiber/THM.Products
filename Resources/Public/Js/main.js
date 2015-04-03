@@ -50,5 +50,9 @@ jQuery(function($) {
 });
 
 
+//$('.flashmessage').wrap('<div class="flashmessage"/>').contents().unwrap();
+//$('.flashmessage li').parent().wrap('<div class="alert alert-success flashmessage"/>').contents().unwrap();
+//$('.flashmessage li').wrap('<div class="flashmessage-ok"/>').contents().unwrap();
+
 
 $('input[type="file"]').ezdz();
