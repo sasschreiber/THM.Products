@@ -4,6 +4,7 @@
 
 	<f:form method="post" action="update" object="{product}" name="product" enctype="multipart/form-data">
 		<f:form.hidden property="id" value="{product.id}" />
+		<f:form.hidden property="isTopLevel" value="{product.isTopLevel}" />
 
 
 		<f:form.submit value="Update Product" class="btn btn-success btn-md pull-right"/>
