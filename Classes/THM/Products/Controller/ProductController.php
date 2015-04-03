@@ -60,20 +60,19 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	 * @return void
 	 */
 	public function createAction(\THM\Products\Domain\Model\Product $product) {
-
-		$this->productRepository->add($product);
-		
 		//Add the product to its parents storage if necessary (because of the bidirectional relation)
 		$parent = $product->getParent();
 		if ($parent) {
+			// where is "cascade persist" to set? Without next line, we get error "The given object is unknown to the Persistence Manager.".
+			$this->productRepository->add($product);
 			$parent->addChild($product);
-			$this->productRepository->update($parent);			
+			$this->productRepository->update($parent);
 		}
 		else {
 			//Mark the product as top level if it has no parent
 			//This is necessary because we cannot use findByParent(NULL) for the list action
 			$product->setToplevel(TRUE);
-			$this->productRepository->update($product);
+			$this->productRepository->add($product);
 		}
 		
 		$this->addFlashMessage("New product created!");
