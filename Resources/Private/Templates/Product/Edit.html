@@ -4,7 +4,7 @@
 
 	<f:form method="post" action="update" object="{product}" name="product" enctype="multipart/form-data">
 		<f:form.hidden property="id" value="{product.id}" />
-		<f:form.hidden property="isTopLevel" value="{product.isTopLevel}" />
+		<f:form.hidden property="topLevel" value="{product.topLevel}" />
 
         <f:link.action action="show" arguments="{product : product}" class="btn btn-default pull-right" style="margin-left: 10px;">
             Exit Edit-Mode

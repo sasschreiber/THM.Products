@@ -34,11 +34,11 @@ class Product {
 
 
 	/**
-	 * @var boolean $isTopLevel
+	 * @var boolean $topLevel
 	 * @ODM\Field(type="boolean")
 	 * @ODM\Index
 	 */
-	protected $isTopLevel;
+	protected $topLevel;
 
 	/**
 	 * @var \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Property>
@@ -80,18 +80,18 @@ class Product {
 	}
 	
 	/**
-	 * @return boolean
+	 * @param $topLevel
+	 * @return void
 	 */
-	public function getIsTopLevel() {
-	  return $this->isTopLevel;
+	public function setTopLevel($topLevel) {
+		$this->topLevel = $topLevel;
 	}
 	
 	/**
-	 * @param boolean $isTopLevel
-	 * @return void
+	 * @return boolean
 	 */
-	public function setIsTopLevel($isTopLevel) {
-	  $this->isTopLevel = $isTopLevel;
+	public function isTopLevel() {
+	  return $this->topLevel;
 	}
 
 	/**

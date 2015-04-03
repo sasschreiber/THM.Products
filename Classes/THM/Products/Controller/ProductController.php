@@ -22,7 +22,7 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	* @return void
 	*/
 	public function listAction() {
-		$products = $this->productRepository->findByIsTopLevel(TRUE);
+		$products = $this->productRepository->findByTopLevel(TRUE);
 		$this->view->assign("products", $products);
 	}
 
@@ -72,7 +72,7 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		else {
 			//Mark the product as top level if it has no parent
 			//This is necessary because we cannot use findByParent(NULL) for the list action
-			$product->setIsToplevel(TRUE);
+			$product->setToplevel(TRUE);
 			$this->productRepository->update($product);
 		}
 		
