@@ -15,7 +15,6 @@
 
 	"require": {
 		"typo3/flow": "*",
-		"typo3/couchdb": "dev-master",
 		"radmiraal/couchdb": "2.0.x-dev"
 	},
 	"autoload": {
