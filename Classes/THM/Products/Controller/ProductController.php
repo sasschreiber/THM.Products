@@ -50,8 +50,10 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	 */
 	public function updateAction(\THM\Products\Domain\Model\Product $product) {
 		$this->productRepository->update($product);
+        $this->addFlashMessage("Updated changes to product \"" . $product->getTitle() . "\".", "Success", Message::SEVERITY_OK);
 		$this->redirect("edit", NULL, NULL, array("product"=>$product));
-	}
+
+    }
 
 	/**
 	 * @param \THM\Products\Domain\Model\Product $product
