@@ -50,5 +50,11 @@
 		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 		Create new child product
 	</f:link.action>
+    <f:if condition="{product.parent}">
+        <f:link.action class="btn btn-default btn-md" action="edit" arguments="{product : product.parent}">
+            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+            Show parent product
+        </f:link.action>
+    </f:if>
 
 </f:section>
