@@ -41,7 +41,7 @@ class Product {
 	protected $topLevel;
 
 	/**
-	 * @var \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Property>
+	 * @var \Doctrine\Common\Collections\ArrayCollection<THM\Products\Domain\Model\Property>
 	 *
 	 * @ODM\EmbedMany(targetDocument="THM\Products\Domain\Model\Property")
 	 */
@@ -50,14 +50,14 @@ class Product {
 	/**
 	 * @var \THM\Products\Domain\Model\Product
 	 *
-	 * @ODM\ReferenceOne(targetDocument="\THM\Products\Domain\Model\Product")
+	 * @ODM\ReferenceOne(targetDocument="THM\Products\Domain\Model\Product")
 	 */
 	protected $parent;
 
 	/**
-	 * @var \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Product>
+	 * @var \Doctrine\Common\Collections\ArrayCollection<THM\Products\Domain\Model\Product>
 	 *
-	 * @ODM\ReferenceMany(targetDocument="\THM\Products\Domain\Model\Product")
+	 * @ODM\ReferenceMany(targetDocument="THM\Products\Domain\Model\Product")
 	 */
 	protected $children;
 
@@ -162,7 +162,7 @@ class Product {
 	}
 
 	/**
-	 * @return \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Product>
+	 * @return \Doctrine\Common\Collections\ArrayCollection<THM\Products\Domain\Model\Product>
 	 */
 	public function getChildren()
 	{
@@ -170,7 +170,7 @@ class Product {
 	}
 
 	/**
-	 * @param \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Product> $children
+	 * @param \Doctrine\Common\Collections\ArrayCollection<THM\Products\Domain\Model\Product> $children
 	 * @return void
 	 */
 	public function setChildren(\Doctrine\Common\Collections\ArrayCollection $children)
