@@ -5,14 +5,9 @@
 	"repositories": [
 		{
 			"type": "vcs",
-			"url": "https://github.com/sasschreiber/TYPO3.CouchDB.git"
-		},
-		{
-			"type": "vcs",
 			"url": "https://github.com/radmiraal/Radmiraal.CouchDB.git"
 		}
 	],
-
 	"require": {
 		"typo3/flow": "*",
 		"radmiraal/couchdb": "2.0.x-dev"
