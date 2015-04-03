@@ -57,12 +57,15 @@ class Product {
 	/**
 	 * @var \Doctrine\Common\Collections\ArrayCollection<THM\Products\Domain\Model\Product>
 	 *
-	 * @ODM\ReferenceMany(targetDocument="THM\Products\Domain\Model\Product")
+	 * @ODM\ReferenceMany(targetDocument="THM\Products\Domain\Model\Product", cascade={"persist"})
+	 *
+	 * @todo: cascade persist does not work with current implementation
 	 */
 	protected $children;
 
 	public function __construct(){
 		$this->properties = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->children = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
 	/**
@@ -154,11 +157,15 @@ class Product {
 
 	/**
 	 * @param \THM\Products\Domain\Model\Product $parent
+	 *
+	 * @param bool $registerByParent
 	 * @return void
 	 */
-	public function setParent(\THM\Products\Domain\Model\Product $parent)
-	{
+	public function setParent(\THM\Products\Domain\Model\Product $parent, $registerByParent = TRUE) {
 		$this->parent = $parent;
+		if ($registerByParent) {
+			$parent->addChild($this);
+		}
 	}
 
 	/**
@@ -173,8 +180,7 @@ class Product {
 	 * @param \Doctrine\Common\Collections\ArrayCollection<THM\Products\Domain\Model\Product> $children
 	 * @return void
 	 */
-	public function setChildren(\Doctrine\Common\Collections\ArrayCollection $children)
-	{
+	public function setChildren(\Doctrine\Common\Collections\ArrayCollection $children) {
 		$this->children = $children;
 	}
 
@@ -182,9 +188,9 @@ class Product {
 	 * @param \THM\Products\Domain\Model\Product $child
 	 * @return void
 	 */
-	public function addChild(\THM\Products\Domain\Model\Product $child)
-	{
+	public function addChild(\THM\Products\Domain\Model\Product $child) {
 		$this->children->add($child);
+		$child->setParent($this, FALSE);
 	}
 
 	/**

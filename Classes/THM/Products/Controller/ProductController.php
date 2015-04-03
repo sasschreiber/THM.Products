@@ -65,7 +65,6 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		if ($parent) {
 			// where is "cascade persist" to set? Without next line, we get error "The given object is unknown to the Persistence Manager.".
 			$this->productRepository->add($product);
-			$parent->addChild($product);
 			$this->productRepository->update($parent);
 		}
 		else {
