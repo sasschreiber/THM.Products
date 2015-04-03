@@ -6,7 +6,7 @@
 <div class="col-md-6">
 <f:form method="post" action="create" object="{product}" name="product" enctype="multipart/form-data">
 		<f:if condition="{parent}">
-			<f:form.hidden name="parent" property="parent" value="{parent}" />
+			<f:form.hidden name="parent" property="parent" value="{parent.id}" />
             <p>Create a new child product with <strong>{parent.title}</strong> as parent. </p>
 		</f:if>	
         <div class="input-group">
