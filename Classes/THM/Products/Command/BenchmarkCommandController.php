@@ -126,8 +126,9 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 //			array('', 'products', '    properties    ', ' children of it ', '     ')
 //		);
 
-
+		$starttime = microtime(TRUE);
 		$this->generateAndAddProductsToRepository($this->productsCount, $this->childrenDepth);
+		$endtime = microtime(TRUE);
 
 
 		$this->outputLine('Generated Products: ' . $this->productsSum);
@@ -151,6 +152,7 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 			),
 			array('Calculated total')
 		);
+		$this->outputLine("Generating took " . ($endtime - $starttime) . " seconds.");
 
 	}
 
@@ -241,6 +243,22 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 		}
 		$products = $products * $this->productsCount + $this->productsCount;
 		return $products*2;
+	}
+
+	
+	/**
+	 * This command simply runs a findAll query and logs the time.
+	 * @return void
+	 */
+	public function findAllCommand() {
+
+		$starttime = microtime(TRUE);
+		$products = $this->productRepository->findAll();
+		$endtime = microtime(TRUE);
+
+		$this->outputLine("FindAll Test: Took " . ($endtime - $starttime) . " seconds.");
+		unset($products);
+
 	}
 
 }
