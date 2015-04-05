@@ -7,8 +7,7 @@ namespace THM\Products\Domain\Model;
  *                                                                        */
 
 use TYPO3\Flow\Annotations as Flow;
-use Doctrine\ODM\CouchDB\Mapping\Annotations as ODM,
-	Radmiraal\CouchDB\Persistence\AbstractDocument;
+use Doctrine\ODM\CouchDB\Mapping\Annotations as ODM;
 
 /**
  * @ODM\Document

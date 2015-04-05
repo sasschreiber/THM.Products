@@ -6,17 +6,22 @@ namespace THM\Products\Controller;
  *                                                                        *
  *                                                                        */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Error\Message;
+use TYPO3\Flow\Annotations as Flow,
+	TYPO3\Flow\Error\Message,
+	TYPO3\Flow\Exception,
+	TYPO3\Flow\Mvc\Controller\ActionController,
 
-class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
+	THM\Products\Domain\Model\Product,
+	THM\Products\Domain\Model\Property,
+	THM\Products\Domain\Repository\ProductRepository;
+
+class ProductController extends ActionController {
 
 	/**
-	* @var \THM\Products\Domain\Repository\ProductRepository
+	* @var ProductRepository
 	* @Flow\Inject
 	*/
 	protected $productRepository;
-
 
 	/**
 	* @return void
@@ -27,28 +32,31 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	}
 
 	/**
-	* @param \THM\Products\Domain\Model\Product $product
+	* @param Product $product
 	* @return void
 	*/
-	public function showAction(\THM\Products\Domain\Model\Product $product) {
+	public function showAction(Product $product) {
 		$this->view->assign("product", $product);
 	}
 
-	public function newAction(\THM\Products\Domain\Model\Product $parent = NULL) {
+	/**
+	 * @param Product $parent
+	 */
+	public function newAction(Product $parent = NULL) {
 		$this->view->assign("parent", $parent);
 	}
 
 	/**
-	 * @param \THM\Products\Domain\Model\Product $product
+	 * @param Product $product
 	 */
-	public function editAction(\THM\Products\Domain\Model\Product $product) {
+	public function editAction(Product $product) {
 		$this->view->assign('product', $product);
 	}
 
 	/**
-	 * @param \THM\Products\Domain\Model\Product $product
+	 * @param Product $product
 	 */
-	public function updateAction(\THM\Products\Domain\Model\Product $product) {
+	public function updateAction(Product $product) {
 		$this->productRepository->update($product);
         $this->addFlashMessage("Updated changes to product \"" . $product->getTitle() . "\".", "Success", Message::SEVERITY_OK);
 		$this->redirect("edit", NULL, NULL, array("product"=>$product));
@@ -56,10 +64,10 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
     }
 
 	/**
-	 * @param \THM\Products\Domain\Model\Product $product
+	 * @param Product $product
 	 * @return void
 	 */
-	public function createAction(\THM\Products\Domain\Model\Product $product) {
+	public function createAction(Product $product) {
 		//Add the product to its parents storage if necessary (because of the bidirectional relation)
 		$parent = $product->getParent();
 		if ($parent) {
@@ -81,9 +89,9 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	
 	/**
 	* Delete products
-	* @param \THM\Products\Domain\Model\Product $product
+	* @param Product $product
 	**/
-	public function deleteAction(\THM\Products\Domain\Model\ Product $product) {
+	public function deleteAction(Product $product) {
 		if ($product->getChildren()->count() > 0) {
 			$this->addFlashMessage("This Product still holds child products. Please delete them first.", "Warning", Message::SEVERITY_ERROR);
 		}
@@ -100,17 +108,18 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	}
 
 	/**
-	 * @param \THM\Products\Domain\Model\Property $property
+	 * @param Property $property
 	 * @return void
 	 */
-	public function addPropertyAction(\THM\Products\Domain\Model\Property $property) {
+	public function addPropertyAction(Property $property) {
 		try {
 			$productIdentifier = $this->request->getReferringRequest()->getArgument('product')['__identity'];
-		} catch (\TYPO3\Flow\Exception $exception) {
+		} catch (Exception $exception) {
 			$this->addFlashMessage('Can not get identifier for Product from referring request.', 'Error accured while handling request.', Message::SEVERITY_ERROR);
+			$this->redirect($this->request->getReferringRequest()->getControllerActionName(), NULL, NULL, $this->request->getReferringRequest()->getArguments());
 		}
 
-		/* @var $product \THM\Products\Domain\Model\Product */
+		/* @var $product Product */
 		$product = $this->productRepository->findByIdentifier($productIdentifier);
 
 		$product->addProperty($property);
@@ -132,11 +141,11 @@ class ProductController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	 */
 	public function addFullyAction() {
 
-		$property = new \THM\Products\Domain\Model\Property();
+		$property = new Property();
 		$property->setName('Test');
 		$property->setContent('jhdfskjhslakjgh  jhlfkjhflksjhflkj');
 
-		$product = new \THM\Products\Domain\Model\Product();
+		$product = new Product();
 		$product->setTitle('Product 001');
 		$product->addProperty($property);
 

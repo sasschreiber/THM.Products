@@ -9,14 +9,19 @@ namespace THM\Products\Command;
 use TYPO3\Flow\Annotations as Flow,
 	TYPO3\Flow\Utility\Algorithms,
 	TYPO3\Flow\Core\Booting\Scripts,
+	TYPO3\Flow\Cli\CommandController,
+	TYPO3\Flow\Http\Client\Browser,
+	TYPO3\Flow\Http\Client\CurlEngine,
 
-	\THM\Products\Domain\Model\Product,
-	\THM\Products\Domain\Model\Property;
+
+	THM\Products\Domain\Model\Product,
+	THM\Products\Domain\Model\Property,
+	THM\Products\Domain\Repository\ProductRepository;
 
 /**
  * @Flow\Scope("singleton")
  */
-class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
+class BenchmarkCommandController extends CommandController {
 
 	/**
 	 * Default value for title length of product.
@@ -58,7 +63,7 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 	protected $childrenDepth;
 
 	/**
-	 * @var \THM\Products\Domain\Repository\ProductRepository
+	 * @var ProductRepository
 	 * @Flow\Inject
 	 */
 	protected $productRepository;
@@ -70,19 +75,25 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 
 	private $productsSum = 0;
 
+	private $topLevelProductsSum = 0;
+
 	protected $verbose;
 
 	protected $dryrun;
 
+	protected $startTime;
+
+	protected $endTime;
+
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Http\Client\Browser
+	 * @var Browser
 	 */
 	protected $browser;
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Http\Client\CurlEngine
+	 * @var CurlEngine
 	 */
 	protected $browserRequestEngine;
 
@@ -129,14 +140,29 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 		$this->verbose = $verbose;
 		$this->dryrun = $dryrun;
 
+		$this->printSummaryAsTable();
+
+		$this->startTime = microtime(TRUE);
+		$this->generateAndAddTopLevelProductsToRepository($this->productsCount, $this->childrenDepth);
+		$this->endTime = microtime(TRUE);
+
+		$this->outputLine('Generating of %s Products took %s seconds.' , array($this->productsSum, $this->endTime - $this->startTime));
+	}
+
+
+	/**
+	 * Prints table with summary of this test.
+	 */
+	protected function printSummaryAsTable() {
 		$this->output->outputTable(
 			array(
 				array('products', $this->productsCount),
 				array('properties/product', $this->propertiesPerProduct),
 				array('children/product', $this->childrenLength),
-				array('depth', $this->childrenDepth)
-			),
-			array('Settings')
+				array('depth', $this->childrenDepth),
+				array('products/flush', $this->productsPerFlush)
+			)
+			, array('Settings')
 		);
 
 		$calculatedTotalGeneratedProducts = $this->calculateTheTotalNumberToGeneratingProducts();
@@ -145,22 +171,16 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 				array('products', $calculatedTotalGeneratedProducts),
 				array('properties', $this->propertiesPerProduct * $calculatedTotalGeneratedProducts),
 				array('children of it', $calculatedTotalGeneratedProducts - $this->productsCount),
-			),
-			array('Calculated total')
+			)
+			, array('Calculated total')
 		);
-
-		$starttime = microtime(TRUE);
-		$this->generateAndAddProductsToRepository($this->productsCount, $this->childrenDepth);
-		$endtime = microtime(TRUE);
-
-		$this->outputLine('Generating of %s Products took %s seconds.' , array($this->productsSum, $endtime - $starttime));
 	}
 
 	/**
 	 * @param $generateProducts
 	 * @return void
 	 */
-	protected function generateAndAddProductsToRepository($generateProducts) {
+	protected function generateAndAddTopLevelProductsToRepository($generateProducts) {
 		for ($this->productsGenerated = 0; $this->productsGenerated < $generateProducts; $this->productsGenerated++) {
 			$this->generateAndAddProductToRepository(NULL, $this->childrenDepth);
 			if ($this->productsGenerated % $this->productsPerFlush == 0) {
@@ -172,11 +192,11 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 	/**
 	 * Generates agregate root product with children products
 	 *
-	 * @param null $parent
+	 * @param null|Product $parent
 	 * @param int $childrenDepth
 	 * @return Product
 	 */
-	protected function generateAndAddProductToRepository($parent = NULL, $childrenDepth = 0) {
+	protected function generateAndAddProductToRepository(Product $parent = NULL, $childrenDepth = 0) {
 		$leftSpacing = ($this->childrenDepth - $childrenDepth) * 2;
 
 		if ($this->verbose && $parent == NULL) {
@@ -184,17 +204,26 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 		}
 
 		$product = new Product();
-		$product->setTitle(Algorithms::generateRandomString(self::PRODUCT_TITLE_LENGTH));
+		if ($parent == NULL) {
+			$product->setTitle('The searchable top level Product Nr. ' . $this->topLevelProductsSum . '.');
+			$this->topLevelProductsSum++;
+		} else {
+			$product->setTitle('The searchable Child-Product Nr. ' . $this->productsSum . ' from Parent with title "' . $parent->getTitle() . '".');
+			$product->setParent($parent);
+		}
 		// add properties
 		for ($propertiesGenerated = 0; $propertiesGenerated < $this->propertiesPerProduct; $propertiesGenerated++) {
 			if ($this->verbose) {
 				$this->outputLine(str_repeat(' ', $leftSpacing+2) . 'Propery Nr: ' . $propertiesGenerated);
 			}
 			$property = new Property();
-			$property->setName(Algorithms::generateRandomString(self::PROPERTY_NAME_LENGTH));
-			$property->setContent(Algorithms::generateRandomString(self::PROPERTY_CONTENT_LENGTH));
+			$property->setName('Property ' . $propertiesGenerated);
+			$property->setContent( 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua '
+				. $propertiesGenerated . '. '
+				. Algorithms::generateRandomString(15) . ' ');
 			$product->addProperty($property);
 		}
+		$this->productsSum++;
 		// add children
 		if ($childrenDepth > 0) {
 			for ($childrenGenerated = 0; $childrenGenerated < $this->childrenLength; $childrenGenerated++) {
@@ -205,19 +234,12 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 			}
 		}
 
-		if ($parent !== NULL) {
-			$product->setParent($parent);
-			$parent->addChild($product);
-		}
-
-		$this->productsSum++;
 		if (!$this->dryrun) {
 			$this->productRepository->add($product);
 		}
 		
 		return $product;
 	}
-
 
 	/**
 	 * Cleans database
@@ -235,7 +257,7 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 		$response = $this->browser->request($uri, 'DELETE');
 		if ($response->getStatusCode() == 200) {
 			$this->outputLine('Database successfully deleted. Trying to migrate designs...');
-			Scripts::executeCommand('Radmiraal.CouchDB:migrate:designs', $this->settings);
+			Scripts::executeCommand('Radmiraal.CouchDB:migrate:designs', $this->settings, FALSE);
 			$this->outputLine();
 		} else {
 			$this->outputLine('Could not delete Database.');
@@ -266,14 +288,17 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 	 * @return void
 	 */
 	public function findAllCommand() {
-
 		$starttime = microtime(TRUE);
 		$products = $this->productRepository->findAll();
 		$endtime = microtime(TRUE);
 
 		$this->outputLine("FindAll Test: Took " . ($endtime - $starttime) . " seconds.");
 		unset($products);
+	}
 
+
+	public function readCommand() {
+		$topLevelProducts = $this->productRepository->findByTopLevel();
 	}
 
 }

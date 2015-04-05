@@ -6,9 +6,9 @@ namespace THM\Products\Domain\Model;
  *                                                                        *
  *                                                                        */
 
-use TYPO3\Flow\Annotations as Flow;
-use Doctrine\ODM\CouchDB\Mapping\Annotations as ODM,
-	Radmiraal\CouchDB\Persistence\AbstractDocument;
+use TYPO3\Flow\Annotations as Flow,
+	Doctrine\ODM\CouchDB\Mapping\Annotations as ODM,
+	Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ODM\Document(indexed=true)
@@ -25,47 +25,46 @@ class Product {
 	 * @var string
 	 *
 	 * @Flow\Validate(type="Text")
-	 * @Flow\Validate(type="StringLength", options={ "minimum"=2, "maximum"=80 })
+	 * @Flow\Validate(type="StringLength", options={ "minimum"=2})
 	 *
 	 * @ODM\Field(type="string")
 	 *
 	 */
 	protected $title;
 
-
 	/**
 	 * @var boolean $topLevel
 	 * @ODM\Field(type="boolean")
 	 * @ODM\Index
 	 */
-	protected $topLevel;
+	protected $topLevel = TRUE;
 
 	/**
-	 * @var \Doctrine\Common\Collections\ArrayCollection<THM\Products\Domain\Model\Property>
+	 * @var ArrayCollection<Property>
 	 *
-	 * @ODM\EmbedMany(targetDocument="THM\Products\Domain\Model\Property")
+	 * @ODM\EmbedMany(targetDocument="Property")
 	 */
 	protected $properties;
 
 	/**
-	 * @var \THM\Products\Domain\Model\Product
+	 * @var Product
 	 *
-	 * @ODM\ReferenceOne(targetDocument="THM\Products\Domain\Model\Product")
+	 * @ODM\ReferenceOne(targetDocument="Product")
 	 */
 	protected $parent;
 
 	/**
-	 * @var \Doctrine\Common\Collections\ArrayCollection<THM\Products\Domain\Model\Product>
+	 * @var ArrayCollection<Product>
 	 *
-	 * @ODM\ReferenceMany(targetDocument="THM\Products\Domain\Model\Product", cascade={"persist"})
+	 * @ODM\ReferenceMany(targetDocument="Product", cascade={"persist"})
 	 *
-	 * @todo: cascade persist does not work with current implementation
+	 * @todo: cascade persist does not work with current implementation of Radmiraal.CouchDB
 	 */
 	protected $children;
 
-	public function __construct(){
-		$this->properties = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->children = new \Doctrine\Common\Collections\ArrayCollection();
+	public function __construct() {
+		$this->properties = new ArrayCollection();
+		$this->children = new ArrayCollection();
 	}
 
 	/**
@@ -100,8 +99,7 @@ class Product {
 	/**
 	 * @return string
 	 */
-	public function getTitle()
-	{
+	public function getTitle() {
 		return $this->title;
 	}
 
@@ -109,98 +107,93 @@ class Product {
 	 * @param string $title
 	 * @return void
 	 */
-	public function setTitle($title)
-	{
+	public function setTitle($title) {
 		$this->title = $title;
 	}
 
 	/**
-	 * @return \Doctrine\Common\Collections\ArrayCollection<THM\Products\Domain\Model\Property>
+	 * @return ArrayCollection<Property>
 	 */
 	public function getProperties() {
 		return $this->properties;
 	}
 
 	/**
-	 * @param \Doctrine\Common\Collections\ArrayCollection<THM\Products\Domain\Model\Property> $properties
+	 * @param ArrayCollection $properties
 	 * @return void
 	 */
-	public function setProperties(\Doctrine\Common\Collections\ArrayCollection $properties) {
+	public function setProperties(ArrayCollection $properties) {
 		$this->properties = $properties;
 	}
 
 	/**
-	 * @param \THM\Products\Domain\Model\Property $property
+	 * @param Property $property
 	 * @return void
 	 */
-	public function addProperty(\THM\Products\Domain\Model\Property $property)
-	{
+	public function addProperty(Property $property) {
 		$this->properties->add($property);
 	}
 
 	/**
-	 * @param \THM\Products\Domain\Model\Property $property
+	 * @param Property $property
 	 * @return void
 	 */
-	public function removeProperty(\THM\Products\Domain\Model\Property $property)
-	{
+	public function removeProperty(Property $property) {
 		$this->properties->remove($property);
 	}
 
 	/**
-	 * @return \THM\Products\Domain\Model\Product
+	 * @return Product
 	 */
-	public function getParent()
-	{
+	public function getParent() {
 		return $this->parent;
 	}
 
 	/**
-	 * @param \THM\Products\Domain\Model\Product $parent
-	 *
+	 * @param Product $parent
 	 * @param bool $registerByParent
 	 * @return void
 	 */
-	public function setParent(\THM\Products\Domain\Model\Product $parent, $registerByParent = TRUE) {
+	public function setParent(Product $parent, $registerByParent = TRUE) {
 		$this->parent = $parent;
 		if ($registerByParent) {
 			$parent->addChild($this);
 		}
+		$this->topLevel = FALSE;
 	}
 
 	/**
-	 * @return \Doctrine\Common\Collections\ArrayCollection<THM\Products\Domain\Model\Product>
+	 * @return ArrayCollection<Product>
 	 */
-	public function getChildren()
-	{
+	public function getChildren() {
 		return $this->children;
 	}
 
 	/**
-	 * @param \Doctrine\Common\Collections\ArrayCollection<THM\Products\Domain\Model\Product> $children
+	 * @param ArrayCollection $children
 	 * @return void
 	 */
-	public function setChildren(\Doctrine\Common\Collections\ArrayCollection $children) {
+	public function setChildren(ArrayCollection $children) {
 		$this->children = $children;
 	}
 
 	/**
-	 * @param \THM\Products\Domain\Model\Product $child
+	 * @param Product $child
 	 * @return void
 	 */
-	public function addChild(\THM\Products\Domain\Model\Product $child) {
-		$this->children->add($child);
+	public function addChild(Product $child) {
+		if (!$this->children->contains($child)) {
+			$this->children->add($child);
+		}
 		$child->setParent($this, FALSE);
 	}
 
 	/**
-	 * @param \THM\Products\Domain\Model\Product $child
+	 * @param Product $child
 	 * @return void
 	 */
-	public function removeChild(\THM\Products\Domain\Model\Product $child)
-	{
+	public function removeChild(Product $child) {
 		$this->children->remove($child);
 	}
-
 
 }
