@@ -257,7 +257,7 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 			$products += $this->childrenLength * pow($this->childrenLength, $depth);;
 		}
 		$products = $products * $this->productsCount + $this->productsCount;
-		return $products*2;
+		return $products;
 	}
 
 	
