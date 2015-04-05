@@ -74,6 +74,8 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 
 	protected $verbose;
 
+	protected $dryrun;
+
 
 	/**
 	 * A benchmark write command. <b>Please use this command only in Production context!</b>
@@ -87,6 +89,7 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 	 * @param int $childrenDepth depth by generating of child Products disabled per default
 	 * @param int $childrenLength
 	 * @param bool $verbose
+	 * @param bool $dryrun
 	 * @return void
 	 */
 	public function writeCommand($productsCount = self::BENCHMARK_WRITE_COUNT_OF_PRODUCTS,
@@ -94,7 +97,8 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 								 $productsPerFlush = self::BENCHMARK_WRITE_COUNT_OF_PRODUCTS_EACH_FLUSH,
 								 $childrenDepth = self::PRODUCT_CHILDREN_DEPTH,
 								 $childrenLength = self::PRODUCT_CHILDREN_LENGTH,
-								 $verbose = FALSE) {
+								 $verbose = FALSE,
+								 $dryrun = FALSE) {
 
 		$this->productsCount = $productsCount;
 		$this->propertiesPerProduct = $propertiesPerProduct;
@@ -102,6 +106,7 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 		$this->childrenDepth = $childrenDepth;
 		$this->childrenLength = $childrenLength;
 		$this->verbose = $verbose;
+		$this->dryrun = $dryrun;
 
 //		$this->outputFormatted('<b>Write benchmark for:</b>', array());
 //		$this->output->outputTable(
@@ -206,7 +211,10 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 		}
 
 		$this->productsSum++;
-		//$this->productRepository->add($product);
+		if (!$this->dryrun) {
+			$this->productRepository->add($product);
+		}
+		
 		return $product;
 	}
 
