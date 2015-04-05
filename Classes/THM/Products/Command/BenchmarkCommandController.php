@@ -223,10 +223,27 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 
 	/**
 	 * Cleans database
-	 *
 	 */
 	public function cleanDBCommand() {
-		$this->productRepository->removeAll();
+		$uri = vsprintf('http://%s:%s/%s', array(
+				$this->persistenceSettings['ip'],
+				$this->persistenceSettings['port'],
+				$this->persistenceSettings['databaseName'])
+		);
+
+		$this->browserRequestEngine->setOption(CURLOPT_USERPWD, $this->persistenceSettings['username'] . ':' . $this->persistenceSettings['password']);
+		$this->browser->setRequestEngine($this->browserRequestEngine);
+
+		$response = $this->browser->request($uri, 'DELETE');
+		if ($response->getStatusCode() == 200) {
+			$this->outputLine('Database successfully deleted. Trying to migrate designs...');
+			Scripts::executeCommand('Radmiraal.CouchDB:migrate:designs', $this->settings);
+			$this->outputLine();
+		} else {
+			$this->outputLine('Could not delete Database.');
+			$this->output($response->getContent());
+			$this->sendAndExit($response->getStatusCode());
+		}
 	}
 
 
