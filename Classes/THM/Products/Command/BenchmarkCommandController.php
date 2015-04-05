@@ -259,6 +259,9 @@ class BenchmarkCommandController extends CommandController {
 			$this->outputLine('Database successfully deleted. Trying to migrate designs...');
 			Scripts::executeCommand('Radmiraal.CouchDB:migrate:designs', $this->settings, FALSE);
 			$this->outputLine();
+		} elseif ($response->getStatusCode() == 404) {
+			$this->outputLine('Database does not exist. Trying to create one and migrate designs...', $this->settings, FALSE);
+			Scripts::executeCommand('Radmiraal.CouchDB:migrate:designs', $this->settings, FALSE);
 		} else {
 			$this->outputLine('Could not delete Database.');
 			$this->output($response->getContent());
