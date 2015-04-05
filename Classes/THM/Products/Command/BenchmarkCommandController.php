@@ -8,12 +8,10 @@ namespace THM\Products\Command;
 
 use TYPO3\Flow\Annotations as Flow,
 	TYPO3\Flow\Utility\Algorithms,
-	Doctrine\Common\Collections\ArrayCollection,
+	TYPO3\Flow\Core\Booting\Scripts,
 
 	\THM\Products\Domain\Model\Product,
 	\THM\Products\Domain\Model\Property;
-
-use Symfony\Component\Console\Helper\Table;
 
 /**
  * @Flow\Scope("singleton")
@@ -32,7 +30,7 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 	const PROPERTY_CONTENT_LENGTH = 340;
 
 	const BENCHMARK_WRITE_COUNT_OF_PRODUCTS = 1000;
-	const BENCHMARK_WRITE_COUNT_OF_PRODUCTS_EACH_FLUSH = 100;
+	const BENCHMARK_WRITE_COUNT_OF_PRODUCTS_EACH_FLUSH = 1;
 
 	/**
 	 * @var int
@@ -76,6 +74,29 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 
 	protected $dryrun;
 
+	/**
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Http\Client\Browser
+	 */
+	protected $browser;
+
+	/**
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Http\Client\CurlEngine
+	 */
+	protected $browserRequestEngine;
+
+	/**
+	 * @var string
+	 * @Flow\Inject(setting="persistence.backendOptions", package="Radmiraal.CouchDB")
+	 */
+	protected $persistenceSettings;
+
+	/**
+	 * @var array
+	 * @Flow\InjectConfiguration(package="TYPO3.Flow")
+	 */
+	protected $settings;
 
 	/**
 	 * A benchmark write command. <b>Please use this command only in Production context!</b>
@@ -108,31 +129,6 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 		$this->verbose = $verbose;
 		$this->dryrun = $dryrun;
 
-//		$this->outputFormatted('<b>Write benchmark for:</b>', array());
-//		$this->output->outputTable(
-//				array(
-//					array('settings', $this->productsCount, $this->propertiesPerProduct, $this->childrenLength, $this->childrenDepth)
-//				),
-//				array('', 'products', 'properties/product', 'children/product', 'depth')
-//			);
-//		$this->generateAndAddProductsToRepository($this->productsCount, $this->childrenDepth);
-//
-//
-//		$calculatedTotalGeneratedProducts = $this->calculateTheTotalNumberToGeneratingProducts();
-//		$this->output->outputTable(
-//			array(
-//				array(' total  ', $calculatedTotalGeneratedProducts, $calculatedTotalGeneratedProducts * $this->propertiesPerProduct, $calculatedTotalGeneratedProducts - $this->productsCount)
-//			),
-//			array('', 'products', '    properties    ', ' children of it ', '     ')
-//		);
-
-		$starttime = microtime(TRUE);
-		$this->generateAndAddProductsToRepository($this->productsCount, $this->childrenDepth);
-		$endtime = microtime(TRUE);
-
-
-		$this->outputLine('Generated Products: ' . $this->productsSum);
-
 		$this->output->outputTable(
 			array(
 				array('products', $this->productsCount),
@@ -152,8 +148,12 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 			),
 			array('Calculated total')
 		);
-		$this->outputLine("Generating took " . ($endtime - $starttime) . " seconds.");
 
+		$starttime = microtime(TRUE);
+		$this->generateAndAddProductsToRepository($this->productsCount, $this->childrenDepth);
+		$endtime = microtime(TRUE);
+
+		$this->outputLine('Generating of %s Products took %s seconds.' , array($this->productsSum, $endtime - $starttime));
 	}
 
 	/**
@@ -163,11 +163,9 @@ class BenchmarkCommandController extends \TYPO3\Flow\Cli\CommandController {
 	protected function generateAndAddProductsToRepository($generateProducts) {
 		for ($this->productsGenerated = 0; $this->productsGenerated < $generateProducts; $this->productsGenerated++) {
 			$this->generateAndAddProductToRepository(NULL, $this->childrenDepth);
-			//\TYPO3\Flow\var_dump($this);
-//			if ($this->productsGenerated % $this->productsPerFlush == 0) {
-//				$this->productRepository->flushDocumentManager();
-//			}
-			//$this->generateAndAddProductsToRepository(self::PRODUCT_CHILDREN_LENGTH, self::PRODUCT_CHILDREN_DEPTH, $childrenDepth - 1);
+			if ($this->productsGenerated % $this->productsPerFlush == 0) {
+				$this->productRepository->flushDocumentManager();
+			}
 		}
 	}
 
