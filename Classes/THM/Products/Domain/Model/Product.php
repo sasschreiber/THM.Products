@@ -19,8 +19,8 @@ class Product {
 	/**
 	* @var string
     * @Flow\Validate(type="Text")
-    * @Flow\Validate(type="StringLength", options={ "minimum"=2, "maximum"=80 })
-    * @ORM\Column(length=80)
+    * @Flow\Validate(type="StringLength", options={ "minimum"=2})
+    *
 	*/
 	protected $title;
 
