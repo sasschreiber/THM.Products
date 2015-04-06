@@ -78,3 +78,6 @@ Radmiraal:
         ip: '127.0.0.1'
 ```
 
+- run ```./flow migrate:designs``` 
+- and you are done with setup
+- now you can run ./bin/benchmark.sh to compare performance with ORM
