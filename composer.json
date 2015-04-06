@@ -2,15 +2,8 @@
 	"name": "thm/products",
 	"type": "typo3-flow-package",
 	"description": "Add description here",
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/radmiraal/Radmiraal.CouchDB.git"
-		}
-	],
 	"require": {
 		"typo3/flow": "*",
-		"radmiraal/couchdb": "2.0.x-dev"
 	},
 	"autoload": {
 		"psr-0": {
