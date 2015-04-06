@@ -31,10 +31,9 @@ printf "\n\n" >> $LOGFILE
 ./flow benchmark:readAllTopLevelProducts >> $LOGFILE
 
 #Cleanup
+# Clean database
 echo "Clearing database..."
-mysql -u $FLOW_USER -p$FLOW_PASS -e "DROP DATABASE $FLOW_DB"
-mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE $FLOW_DB CHARACTER SET utf8 COLLATE utf8_general_ci"
-./flow doctrine:create
+./flow benchmark:cleandb
 ./flow flow:cache:flush --force > /dev/null
 
 
@@ -51,10 +50,9 @@ printf "\n\n" >> $LOGFILE
 ./flow benchmark:readAllTopLevelProducts >> $LOGFILE
 
 #Cleanup
+# Clean database
 echo "Clearing database..."
-mysql -u $FLOW_USER -p$FLOW_PASS -e "DROP DATABASE $FLOW_DB"
-mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE $FLOW_DB CHARACTER SET utf8 COLLATE utf8_general_ci"
-./flow doctrine:create
+./flow benchmark:cleandb
 ./flow flow:cache:flush --force > /dev/null
 
 ######## 
@@ -69,10 +67,9 @@ printf "\n\n" >> $LOGFILE
 ./flow benchmark:readAllTopLevelProducts >> $LOGFILE
 
 #Cleanup
+# Clean database
 echo "Clearing database..."
-mysql -u $FLOW_USER -p$FLOW_PASS -e "DROP DATABASE $FLOW_DB"
-mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE $FLOW_DB CHARACTER SET utf8 COLLATE utf8_general_ci"
-./flow doctrine:create
+./flow benchmark:cleandb
 ./flow flow:cache:flush --force > /dev/null
 
 ######## 
@@ -87,10 +84,9 @@ printf "\n\n" >> $LOGFILE
 ./flow benchmark:readAllTopLevelProducts >> $LOGFILE
 
 #Cleanup
+# Clean database
 echo "Clearing database..."
-mysql -u $FLOW_USER -p$FLOW_PASS -e "DROP DATABASE $FLOW_DB"
-mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE $FLOW_DB CHARACTER SET utf8 COLLATE utf8_general_ci"
-./flow doctrine:create
+./flow benchmark:cleandb
 ./flow flow:cache:flush --force > /dev/null
 
 echo -e "All tests done. You can find the results in "$LOGFILE
