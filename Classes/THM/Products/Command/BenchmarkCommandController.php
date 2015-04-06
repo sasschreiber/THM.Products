@@ -12,6 +12,7 @@ use TYPO3\Flow\Annotations as Flow,
 	TYPO3\Flow\Cli\CommandController,
 	TYPO3\Flow\Http\Client\Browser,
 	TYPO3\Flow\Http\Client\CurlEngine,
+	TYPO3\Flow\Configuration\ConfigurationManager,
 
 
 	THM\Products\Domain\Model\Product,
@@ -104,10 +105,10 @@ class BenchmarkCommandController extends CommandController {
 	protected $persistenceSettings;
 
 	/**
-	 * @var array
-	 * @Flow\InjectConfiguration(package="TYPO3.Flow")
+	 * @Flow\Inject
+	 * @var ConfigurationManager
 	 */
-	protected $settings;
+	protected $configurationManager;
 
 	/**
 	 * A benchmark write command. <b>Please use this command only in Production context!</b>
@@ -245,6 +246,8 @@ class BenchmarkCommandController extends CommandController {
 	 * Cleans database
 	 */
 	public function cleanDBCommand() {
+		$settings = $this->configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'TYPO3.Flow');
+
 		$uri = vsprintf('http://%s:%s/%s', array(
 				$this->persistenceSettings['ip'],
 				$this->persistenceSettings['port'],
@@ -257,11 +260,10 @@ class BenchmarkCommandController extends CommandController {
 		$response = $this->browser->request($uri, 'DELETE');
 		if ($response->getStatusCode() == 200) {
 			$this->outputLine('Database successfully deleted. Trying to migrate designs...');
-			Scripts::executeCommand('Radmiraal.CouchDB:migrate:designs', $this->settings, FALSE);
-			$this->outputLine();
+			Scripts::executeCommand('Radmiraal.CouchDB:migrate:designs', $settings, FALSE);
 		} elseif ($response->getStatusCode() == 404) {
-			$this->outputLine('Database does not exist. Trying to create one and migrate designs...', $this->settings, FALSE);
-			Scripts::executeCommand('Radmiraal.CouchDB:migrate:designs', $this->settings, FALSE);
+			$this->outputLine('Database does not exist. Trying to create one and migrate designs...', $settings, FALSE);
+			Scripts::executeCommand('Radmiraal.CouchDB:migrate:designs', $settings, FALSE);
 		} else {
 			$this->outputLine('Could not delete Database.');
 			$this->output($response->getContent());
