@@ -16,5 +16,6 @@
 		"psr-0": {
 			"THM\\Products": "Classes"
 		}
-	}
+	},
+	"bin": ["Scripts/benchmark.sh"]
 }

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-cd /var/www
+#cd /var/www
 # Change logfile path here
 DATE=$(date +"%Y%m%d%H%M%S")
-LOGFILE="/var/www/Data/Logs/THM.Products/benchmark_log_"$DATE".txt"
+LOGFILE=`pwd`"/Data/Logs/THM.Products/benchmark_log_"$DATE".txt"
 
 mkdir -p "$(dirname "$LOGFILE")" && touch "$LOGFILE"
 
@@ -82,6 +82,4 @@ echo "Clearing database..."
 ./flow benchmark:cleandb
 ./flow flow:cache:flush --force > /dev/null
 
-echo "All tests done."
-
-
+echo -e "All tests done. You can find the results in "$LOGFILE
