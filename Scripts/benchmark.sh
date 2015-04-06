@@ -95,6 +95,4 @@ mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE $FLOW_DB CHARACTER SET utf8
 ./flow doctrine:create
 ./flow flow:cache:flush --force > /dev/null
 
-echo "All tests done."
-
-
+echo -e "All tests done. You can find the results in "$LOGFILE
