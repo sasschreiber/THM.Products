@@ -300,8 +300,26 @@ class BenchmarkCommandController extends CommandController {
 	}
 
 
-	public function readCommand() {
-		$topLevelProducts = $this->productRepository->findByTopLevel();
+	public function readAllTopLevelProductsCommand() {
+		$this->startTime = microtime(TRUE);
+
+		$topLevelProducts = $this->productRepository->findByTopLevel(TRUE);
+		$readProducts = 0;
+		foreach ($topLevelProducts as $topLevelProduct) {
+			// make sure we catch all properties and references independently of lazy loading.
+			$dumpedTopLevelProduct = \TYPO3\Flow\var_dump($topLevelProduct, NULL, TRUE);
+			$readProducts++;
+		}
+		$this->endTime = microtime(TRUE);
+		$elapsedTime = $this->endTime - $this->startTime;
+
+		$this->outputFormatted('Reading of %s top level Products took %s seconds.', array($readProducts, $elapsedTime));
+	}
+
+	public function findNProductsByTitleCommand($number = 1 ) {
+		$topLevelProducts = $this->productRepository->findByTopLevel(TRUE);
+		$numberOfTopLevelProducts = $topLevelProducts->countAll();
+		\TYPO3\Flow\var_dump($numberOfTopLevelProducts);
 	}
 
 }
