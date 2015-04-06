@@ -56,7 +56,14 @@ Create composer.json with following content:
 run ```composer update```
 
 - Install couchdb on your server
-- Create a couchdb admin user and add login data to Configuration/[CONTEXT]/Settings.yaml
+- Create a couchdb admin user(see curl command below)
+
+```
+curl -X PUT http://127.0.0.1:5984/_config/admins/flow -d 'flow'
+curl -X PUT http://flow:flow@127.0.0.1:5984/flow
+```
+
+- add following login data to Configuration/[CONTEXT]/Settings.yaml
 
 ```
 Radmiraal:
