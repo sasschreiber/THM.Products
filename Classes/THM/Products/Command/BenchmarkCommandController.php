@@ -102,6 +102,13 @@ class BenchmarkCommandController extends CommandController {
 	 * @var \TYPO3\Flow\Persistence\PersistenceManagerInterface
 	 */
 	protected $persistenceManager;
+
+	/**
+	 * @Flow\Inject
+	 * @var \Doctrine\Common\Persistence\ObjectManager
+	 */
+	protected $entityManager;
+
 	/**
 	 * A benchmark write command. <b>Please use this command only in Production context!</b>
 	 *
@@ -238,7 +245,10 @@ class BenchmarkCommandController extends CommandController {
 	 * Cleans database
 	 */
 	public function cleanDBCommand() {
-		$this->productRepository->removeAll();
+		$sql = 'DELETE FROM thm_products_domain_model_property WHERE 1; DELETE FROM thm_products_domain_model_product WHERE 1;';
+		$sqlConnection = $this->entityManager->getConnection();
+		/** @var $sqlConnection \Doctrine\DBAL\Connection */
+		$sqlConnection->executeUpdate($sql);
 	}
 
 
