@@ -55,8 +55,6 @@ Create composer.json with following content:
 
 run ```composer update```
 
-- Add packages, Radmiraal.CouchDB
-
 - Install couchdb on your server
 - Create a couchdb admin user and add login data to Configuration/[CONTEXT]/Settings.yaml
 
