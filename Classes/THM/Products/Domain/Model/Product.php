@@ -6,79 +6,50 @@ namespace THM\Products\Domain\Model;
  *                                                                        *
  *                                                                        */
 
-use TYPO3\Flow\Annotations as Flow,
-	Doctrine\ODM\CouchDB\Mapping\Annotations as ODM,
-	Doctrine\Common\Collections\ArrayCollection;
+use TYPO3\Flow\Annotations as Flow;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ODM\Document(indexed=true)
+ * @Flow\Entity
  */
 class Product {
 
-	/**
-	 * @var string
-	 * @ODM\Id(type="string")
-	 */
-	protected $id;
 
 	/**
-	 * @var string
-	 *
-	 * @Flow\Validate(type="Text")
-	 * @Flow\Validate(type="StringLength", options={ "minimum"=2})
-	 *
-	 * @ODM\Field(type="string")
-	 *
-	 */
+	* @var string
+    * @Flow\Validate(type="Text")
+    * @Flow\Validate(type="StringLength", options={ "minimum"=2, "maximum"=80 })
+    * @ORM\Column(length=80)
+	*/
 	protected $title;
 
 	/**
 	 * @var boolean $topLevel
-	 * @ODM\Field(type="boolean")
-	 * @ODM\Index
+	 * @ORM\Column(type="boolean")
 	 */
 	protected $topLevel = TRUE;
 
-	/**
-	 * @var ArrayCollection<Property>
-	 *
-	 * @ODM\EmbedMany(targetDocument="Property")
-	 */
-	protected $properties;
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Property>
+     * @ORM\OneToMany(mappedBy="product")
+     */
+    protected $properties;
 
-	/**
-	 * @var Product
-	 *
-	 * @ODM\ReferenceOne(targetDocument="Product")
-	 */
-	protected $parent;
+    /**
+     * @var \THM\Products\Domain\Model\Product $parent
+     * @ORM\ManyToOne(inversedBy="children")
+     */
+    protected $parent;
 
-	/**
-	 * @var ArrayCollection<Product>
-	 *
-	 * @ODM\ReferenceMany(targetDocument="Product", cascade={"persist"})
-	 *
-	 * @todo: cascade persist does not work with current implementation of Radmiraal.CouchDB
-	 */
-	protected $children;
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Product>
+     * @ORM\OneToMany(mappedBy="parent")
+     */
+    protected $children;
 
 	public function __construct() {
 		$this->properties = new ArrayCollection();
 		$this->children = new ArrayCollection();
-	}
-
-	/**
-	 * @param string $id
-	 */
-	public function setId($id) {
-		$this->id = $id;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getId() {
-		return $this->id;
 	}
 	
 	/**

@@ -7,41 +7,22 @@ namespace THM\Products\Domain\Model;
  *                                                                        */
 
 use TYPO3\Flow\Annotations as Flow;
-use Doctrine\ODM\CouchDB\Mapping\Annotations as ODM;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ODM\Document
- * @ODM\EmbeddedDocument
+ * @Flow\Entity
  */
 class Property {
 
 	/**
-	 * @var string
-	 *
-	 * @ODM\Field(type="string")
-     * @Flow\Validate(type="Text")
-     * @Flow\Validate(type="StringLength", options={ "minimum"=2, "maximum"=80 })
-	 */
+	* @var string
+    * @Flow\Validate(type="Text")
+    * @Flow\Validate(type="StringLength", options={ "minimum"=2, "maximum"=80 })
+    * @ORM\Column(length=80)
+	*/
 	protected $name;
-
-
-	/**
-	 * @var string $contenttype
-	 *
-	 * @ODM\Field(type="string")
-	 */
-	protected $contenttype;
-
-	/**
-	 * @var string
-	 *
-	 * @Flow\Validate(type="Text")
-	 * @ODM\Field(type="string")
-	 */
-	protected $content;
 	
 	/**
-	 *
 	 * @return string
 	 */
 	public function getName() {
@@ -55,6 +36,13 @@ class Property {
 	public function setName($name) {
 	  $this->name = $name;
 	}
+
+	/**
+	* @var string
+    * @Flow\Validate(type="Text")
+    * @ORM\Column(type="text")
+	*/
+	protected $content;
 	
 	/**
 	 * @return string
@@ -70,20 +58,26 @@ class Property {
 	public function setContent($content) {
 	  $this->content = $content;
 	}
-
+	
 	/**
-	 * @return string
+	 * @var \THM\Products\Domain\Model\Product $product
+	 * @ORM\ManyToOne(inversedBy="properties")
 	 */
-	public function getType() {
-	  return $this->type;
+	protected $product;
+	
+	/**
+	 * @return \THM\Products\Domain\Model\Product
+	 */
+	public function getProduct() {
+	  return $this->product;
 	}
 	
 	/**
-	 * @param string $type
+	 * @param \THM\Products\Domain\Model\Product $product
 	 * @return void
 	 */
-	public function setType($type) {
-	  $this->type = $type;
+	public function setProduct(\THM\Products\Domain\Model\Product $product) {
+	  $this->product = $product;
 	}
 
 }
