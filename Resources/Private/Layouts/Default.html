@@ -8,7 +8,7 @@
 		<meta name="author" content="">
 
 
-		<title><f:render section="Title" /></title>
+		<title><f:render section="Title" optional="true" /></title>
 
 		<!-- Bootstrap core CSS -->
 		<link rel="stylesheet" href="{f:uri.resource(path: 'Css/style.css')}" type="text/css" media="all" />
@@ -50,26 +50,49 @@ Todo: auslagern und eigene Action anlegen
 					</div>
 					<!--<button type="submit" class="btn btn-default">Submit</button>-->
 				</form>
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Produkt <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">Produkt hinzufügen</a></li>
-							<li><a href="#">Produkt bearbeiten</a></li>
-							<li><a href="#">Produkt löschen</a></li>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Katalog <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">Katalog bearbeiten</a></li>
-							<li class="divider"></li>
-							<li><a href="#">Neuen Katalog anlegen</a></li>
-							<li><a href="#">Ausgewählten Katalog löschen</a></li>
-						</ul>
-					</li>
-				</ul>
-
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Product <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="representation">
+                                <f:link.action action="new" class="menuitem">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    Create new top-level product
+                                </f:link.action>
+                            </li>
+                            <f:if condition="{product}">
+                            <li role="presentation" class="divider"></li>
+                                <li class="presentation">
+                                    <f:link.action action="edit" class="menuitem"  arguments="{product : product}">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                        Edit product
+                                    </f:link.action>
+                                </li>
+                                
+                                <li class="presentation">
+                                    <f:link.action action="new" class="menuitem"  arguments="{parent : product}">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                        Create new child product
+                                    </f:link.action>
+                                </li>
+                                <li class="presentation">
+                                    <f:link.action action="delete" class="menuitem" arguments="{product : product}">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                        Delete product
+                                    </f:link.action>
+                                </li>
+                            </f:if>
+                            <li style="display: none;"><a href="#">Produkt löschen</a></li>
+                        </ul>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+					    <f:link.action class="menuitem" action="list">
+					        <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+					        Show top level list
+					    </f:link.action>
+                    </li>
+                </ul>
 			</div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->
 	</nav>
@@ -80,16 +103,34 @@ Todo: auslagern und eigene Action anlegen
 	<div class="container-fluid">
 		<!--row start-->
 		<div class="row">
+            <f:if condition="{product}">
+                <f:then>
+                    <!--  ************************
+                    start productcatalog categories & subcategories overview sidebar
+                    ************************ -->
+                    <div class="col-sm-3 col-md-2 sidebar">
+                        <f:if condition="{product.parent}">hallo</f:if>
+                        <ul class="nav nav-sidebar">
+                            <li class="active">{parent.title}</li>
+                            <li>
+                                <ul class="nav nav-sidebar" >
+                                    <li><a href="">Sub-Kategorie1</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- ************ sidebar End *********** -->
 
+                    <!-- Main Start -->
 
-			<!-- Main Start -->
-				<div class="main">
-				<!--<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">-->
+                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                </f:then>
+                <f:else><div class="col-md-10 col-md-offset-1 main"></f:else>
+            </f:if>
 
-					<!--Content Section-->
-					<f:flashMessages class="flashmessages" />
-
-					<h1><f:render section="Title" /></h1>
+            <!--Content Section-->
+            <f:flashMessages class="alert alert-success flashmessage" />
+					<f:render section="Title" optional="true" />
 					<f:render section="Content" />
 			<!--Main End-->
 				</div>
@@ -104,7 +145,9 @@ Todo: auslagern und eigene Action anlegen
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script src="{f:uri.resource(path: 'Js/bootstrap.js')}"></script>
 
-		<f:render section="AdditionalScripts" partial="Product/AddProperty" optional="true" />
+		<script src="{f:uri.resource(path: 'Js/jquery.ezdz.js')}"></script>
+		<script src="{f:uri.resource(path: 'Js/main.js')}"></script>
+
 
 	</body>
 </html>

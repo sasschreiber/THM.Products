@@ -9,9 +9,20 @@
 			<f:for each="{products}" as="product">
 				<tr>
 					<td>
+
 						<f:link.action action="show" arguments="{product : product}">
 							{product.title}
 						</f:link.action>
+
+						<f:if condition="{edit}">
+							<div class="pull-right">
+								<f:link.action action="edit" arguments="{product : product}">
+								<span class="glyphicon glyphicon-pencil"></span> Edit</f:link.action>
+
+								<f:link.action action="delete" arguments="{product : product}">
+								<span class="glyphicon glyphicon-remove" style="margin-left: 5px;"></span> Delete</f:link.action>
+							</div>
+						</f:if>
 					</td>
 				</tr>
 			</f:for>

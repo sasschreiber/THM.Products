@@ -1,0 +1,60 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+
+	<f:form method="post" action="update" object="{product}" name="product" enctype="multipart/form-data">
+		<f:form.hidden property="id" value="{product.id}" />
+		<f:form.hidden property="topLevel" value="{product.topLevel}" />
+
+        <f:link.action action="show" arguments="{product : product}" class="btn btn-default pull-right" style="margin-left: 10px;">
+            Exit Edit-Mode
+        </f:link.action>
+		<f:form.submit value="Update Product" class="btn btn-success btn-md pull-right"/>
+        <h1>Edit Product "{product.title}"</h1>
+
+		<div class="input-group">
+			<span class="input-group-addon">Title:</span>
+			<f:form.textfield property="title" value="{product.title}" name="title" class="form-control"/>
+		</div>
+		<br>
+
+		<br>
+		<h4>Properties:</h4>
+			<f:for each="{product.properties}" as="property" key="propertyKey">
+					<div class="input-group">
+						<span class="input-group-addon">Name:</span>
+						<f:form.textfield property="properties.{propertyKey}.name" value="{property.name}" name="title" class="form-control"/>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Content:</span>
+						<f:form.textfield property="properties.{propertyKey}.content" value="{property.content}" name="title" class="form-control"/>
+					</div>
+                <br>
+			</f:for>
+	</f:form>
+	<br><br>
+	<div class="row">
+		<f:render partial="Product/AddProperty" arguments="{product : product}"/>
+	</div>
+
+
+	
+	<br>
+	<br>
+	<f:if condition="{product.children}">
+		<h4>Children of {product.title}</h4>
+		<f:render partial="Product/List" arguments="{products : product.children, edit : true}" />
+		<br><br>
+	</f:if>
+	<f:link.action class="btn btn-default btn-md" action="new" arguments="{parent : product}">
+		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		Create new child product
+	</f:link.action>
+    <f:if condition="{product.parent}">
+        <f:link.action class="btn btn-default btn-md" action="edit" arguments="{product : product.parent}">
+            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+            Show parent product
+        </f:link.action>
+    </f:if>
+
+</f:section>

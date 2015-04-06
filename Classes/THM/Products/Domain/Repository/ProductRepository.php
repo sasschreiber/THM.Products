@@ -6,12 +6,10 @@ namespace THM\Products\Domain\Repository;
  *                                                                        *
  *                                                                        */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Persistence\Repository;
+use TYPO3\Flow\Annotations as Flow,
+	Radmiraal\CouchDB\Persistence\AbstractRepository;
 
 /**
  * @Flow\Scope("singleton")
  */
-class ProductRepository extends Repository {
-
-}
+class ProductRepository extends AbstractRepository {}

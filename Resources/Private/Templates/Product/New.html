@@ -1,12 +1,13 @@
 <f:layout name="Default" />
 
-<f:section name="Title">Create a new product</f:section>
+<f:section name="Title"><h1>Create a new product</h1></f:section>
 
 <f:section name="Content">
 <div class="col-md-6">
 <f:form method="post" action="create" object="{product}" name="product" enctype="multipart/form-data">
 		<f:if condition="{parent}">
-			<f:form.hidden name="parent" property="parent" value="{parent}" />
+			<f:form.hidden name="parent" property="parent" value="{parent.id}" />
+            <p>Create a new child product with <strong>{parent.title}</strong> as parent. </p>
 		</f:if>	
         <div class="input-group">
                 <span class="input-group-addon">Title:</span>

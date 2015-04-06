@@ -1,50 +1,51 @@
 
 <f:layout name="Default" />
 
-<f:section name="Title">Product: {product.title}</f:section>
+<f:section name="Title"><h1>Product: {product.title}</h1></f:section>
 
 <f:section name="Content">
-	<strong>Title:</strong> {product.title}
+    <div class="row">
+        <div class="col-md-5">
+    <br>
+    <f:if condition="{product.properties}">
+        <f:then>
+            <h4>Properties:</h4>
+            <ul>
+                <f:for each="{product.properties}" as="property">
+                    <li><strong>{property.name}</strong>: {property.content}</li>
+                </f:for>
+            </ul>
+        </f:then>
+        <f:else>
+            <h4>Properties:</h4>
+            <p> Sorry, there are no properties to show.</p>
+        </f:else>
+    </f:if>
+        </div>
+        <!--
+        <div class="product-image col-md-7">
+            <img src="{f:uri.resource(path: 'Images/foo.png')}" class="img-responsive img-thumbnail" width="500px"/>
 
-		<br>
-	<f:for each="{product.properties}" as="property">
-		<f:if condition="{0: property.name} == {0: 'Beschreibung'}">
-			<strong>{property.name}</strong>: {property.content}
-		</f:if>
-	</f:for>
-	<br>
-	<h4>Properties:</h4>
-	<ul>
-		<f:for each="{product.properties}" as="property">
-			<f:if condition="{0: property.name} != {0: 'Beschreibung'}">
-				<li><strong>{property.name}</strong>: {property.content}</li>
-			</f:if>
-		</f:for>
-	</ul>
+        </div>
+        -->
+    </div>
 
-	<f:render partial="Product/AddProperty" arguments="{product : product}"/>
+    <div class="row">
+    <div class="col-md-12">
+    <br>
 
-		<br>
-		<br>
-	<f:if condition="{product.children}">
-		<h4>Children of {product.title}</h4>
-		<f:render partial="Product/List" arguments="{products : product.children}" />
-		<br>
-	</f:if>
-	<f:link.action class="btn btn-default btn-md" action="new" arguments="{parent : product}">
-		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-		Create new child product
-	</f:link.action>
-	<f:link.action class="btn btn-default btn-md" action="list">
-		<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-		Back to List
-	</f:link.action>
+    <f:if condition="{product.children}">
+        <h4>Children of {product.title}</h4>
+        <f:render partial="Product/List" arguments="{products : product.children}" />
+        <br>
+    </f:if>
+    <f:if condition="{product.parent}">
+        <f:link.action class="btn btn-default btn-md" action="show" arguments="{product : product.parent}">
+            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+            Show parent product
+        </f:link.action>
+    </f:if>
 
-	<f:if condition="{product.parent}">
-	<f:link.action class="btn btn-default btn-md" arguments="{product : product.parent}" action="show">
-		<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
-		Show parent
-	</f:link.action>
-	</f:if>
-	<!-- f:render partial="Product/ParentStructure" arguments="{product : product}"  -->
+    </div>
+    </div>
 </f:section>
