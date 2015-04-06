@@ -123,6 +123,7 @@ class ProductController extends ActionController {
 		$product = $this->productRepository->findByIdentifier($productIdentifier);
 
 		$product->addProperty($property);
+		$property->setProduct($product);
 		$this->productRepository->update($product);
 		$this->redirect($this->request->getReferringRequest()->getControllerActionName(), NULL, NULL, array("product"=>$product));
 	}
