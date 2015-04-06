@@ -20,7 +20,7 @@ class Product {
 	* @var string
     * @Flow\Validate(type="Text")
     * @Flow\Validate(type="StringLength", options={ "minimum"=2})
-    *
+    * @ORM\Column
 	*/
 	protected $title;
 

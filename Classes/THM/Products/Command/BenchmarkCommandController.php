@@ -104,6 +104,13 @@ class BenchmarkCommandController extends CommandController {
 	protected $persistenceManager;
 
 	/**
+	 * 
+	 * @var \TYPO3\Flow\Persistence\Doctrine\PersistenceManager
+	 * @FLow\Inject
+	 */
+	protected $persistenceManager;
+
+	/**
 	 * A benchmark write command. <b>Please use this command only in Production context!</b>
 	 *
 	 * This command writes products in the database and prints the elapsed time.

@@ -1,4 +1,7 @@
 #!/bin/bash
+FLOW_DB=flow
+FLOW_USER=root
+FLOW_PASS=root
 
 #cd /var/www
 # Change logfile path here
@@ -14,7 +17,9 @@ echo "Starting Benchmark..."
 
 # Clean database
 echo "Clearing database..."
-./flow benchmark:cleandb
+mysql -u $FLOW_USER -p$FLOW_PASS -e "DROP DATABASE $FLOW_DB"
+mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE flow CHARACTER SET utf8 COLLATE utf8_general_ci"
+./flow doctrine:create
 
 ######## 
 # First test: Flat hierarchy - no subproducts or properties
@@ -29,7 +34,9 @@ printf "\n\n" >> $LOGFILE
 
 #Cleanup
 echo "Clearing database..."
-./flow benchmark:cleandb
+mysql -u $FLOW_USER -p$FLOW_PASS -e "DROP DATABASE $FLOW_DB"
+mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE flow CHARACTER SET utf8 COLLATE utf8_general_ci"
+./flow doctrine:create
 ./flow flow:cache:flush --force > /dev/null
 
 
@@ -47,7 +54,9 @@ printf "\n\n" >> $LOGFILE
 
 #Cleanup
 echo "Clearing database..."
-./flow benchmark:cleandb
+mysql -u $FLOW_USER -p$FLOW_PASS -e "DROP DATABASE $FLOW_DB"
+mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE $FLOW_DB CHARACTER SET utf8 COLLATE utf8_general_ci"
+./flow doctrine:create
 ./flow flow:cache:flush --force > /dev/null
 
 ######## 
@@ -63,7 +72,9 @@ printf "\n\n" >> $LOGFILE
 
 #Cleanup
 echo "Clearing database..."
-./flow benchmark:cleandb
+mysql -u $FLOW_USER -p$FLOW_PASS -e "DROP DATABASE $FLOW_DB"
+mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE flow CHARACTER SET utf8 COLLATE utf8_general_ci"
+./flow doctrine:create
 ./flow flow:cache:flush --force > /dev/null
 
 ######## 
@@ -79,7 +90,9 @@ printf "\n\n" >> $LOGFILE
 
 #Cleanup
 echo "Clearing database..."
-./flow benchmark:cleandb
+mysql -u $FLOW_USER -p$FLOW_PASS -e "DROP DATABASE $FLOW_DB"
+mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE flow CHARACTER SET utf8 COLLATE utf8_general_ci"
+./flow doctrine:create
 ./flow flow:cache:flush --force > /dev/null
 
 echo "All tests done."
