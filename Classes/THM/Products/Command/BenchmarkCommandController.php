@@ -98,16 +98,10 @@ class BenchmarkCommandController extends CommandController {
 	protected $browserRequestEngine;
 
 	/**
-	 * @var string
-	 * @Flow\Inject(setting="persistence.backendOptions", package="Radmiraal.CouchDB")
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Persistence\PersistenceManagerInterface
 	 */
-	protected $persistenceSettings;
-
-	/**
-	 * @var array
-	 * @Flow\InjectConfiguration(package="TYPO3.Flow")
-	 */
-	protected $settings;
+	protected $persistenceManager;
 
 	/**
 	 * A benchmark write command. <b>Please use this command only in Production context!</b>
@@ -184,7 +178,7 @@ class BenchmarkCommandController extends CommandController {
 		for ($this->productsGenerated = 0; $this->productsGenerated < $generateProducts; $this->productsGenerated++) {
 			$this->generateAndAddProductToRepository(NULL, $this->childrenDepth);
 			if ($this->productsGenerated % $this->productsPerFlush == 0) {
-				$this->productRepository->flushDocumentManager();
+				$this->persistenceManager->persistAll();
 			}
 		}
 	}
@@ -245,28 +239,7 @@ class BenchmarkCommandController extends CommandController {
 	 * Cleans database
 	 */
 	public function cleanDBCommand() {
-		$uri = vsprintf('http://%s:%s/%s', array(
-				$this->persistenceSettings['ip'],
-				$this->persistenceSettings['port'],
-				$this->persistenceSettings['databaseName'])
-		);
-
-		$this->browserRequestEngine->setOption(CURLOPT_USERPWD, $this->persistenceSettings['username'] . ':' . $this->persistenceSettings['password']);
-		$this->browser->setRequestEngine($this->browserRequestEngine);
-
-		$response = $this->browser->request($uri, 'DELETE');
-		if ($response->getStatusCode() == 200) {
-			$this->outputLine('Database successfully deleted. Trying to migrate designs...');
-			Scripts::executeCommand('Radmiraal.CouchDB:migrate:designs', $this->settings, FALSE);
-			$this->outputLine();
-		} elseif ($response->getStatusCode() == 404) {
-			$this->outputLine('Database does not exist. Trying to create one and migrate designs...', $this->settings, FALSE);
-			Scripts::executeCommand('Radmiraal.CouchDB:migrate:designs', $this->settings, FALSE);
-		} else {
-			$this->outputLine('Could not delete Database.');
-			$this->output($response->getContent());
-			$this->sendAndExit($response->getStatusCode());
-		}
+		$this->productRepository->removeAll();
 	}
 
 
