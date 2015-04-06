@@ -77,7 +77,7 @@ class Property {
 	 * @return void
 	 */
 	public function setProduct(\THM\Products\Domain\Model\Product $product) {
-	  $this->product = $product;
+		$this->product = $product;
 	}
 
 }

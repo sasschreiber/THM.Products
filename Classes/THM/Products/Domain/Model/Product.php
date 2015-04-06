@@ -32,7 +32,7 @@ class Product {
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Property>
-     * @ORM\OneToMany(mappedBy="product")
+     * @ORM\OneToMany(mappedBy="product", cascade={"persist", "remove"})
      */
     protected $properties;
 
@@ -44,7 +44,7 @@ class Product {
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection<\THM\Products\Domain\Model\Product>
-     * @ORM\OneToMany(mappedBy="parent")
+     * @ORM\OneToMany(mappedBy="parent", cascade={"persist", "remove"})
      */
     protected $children;
 
@@ -103,7 +103,10 @@ class Product {
 	 * @return void
 	 */
 	public function addProperty(Property $property) {
-		$this->properties->add($property);
+		if (!$this->properties->contains($property)) {
+			$this->properties->add($property);
+		}
+		$property->setProduct($this);
 	}
 
 	/**
