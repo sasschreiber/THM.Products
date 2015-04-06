@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cd /var/www
 # Change logfile path here
 LOGFILE="/var/www/Data/Logs/THM.Products/benchmark_log.txt"
 
