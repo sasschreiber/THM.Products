@@ -245,7 +245,7 @@ class BenchmarkCommandController extends CommandController {
 	 * Cleans database
 	 */
 	public function cleanDBCommand() {
-		$sql = 'DELETE FROM thm_products_domain_model_property WHERE 1; DELETE FROM thm_products_domain_model_product WHERE 1;';
+		$sql = 'SET FOREIGN_KEY_CHECKS=0; DELETE FROM thm_products_domain_model_property WHERE 1; DELETE FROM thm_products_domain_model_product WHERE 1; SET FOREIGN_KEY_CHECKS=1;';
 		$sqlConnection = $this->entityManager->getConnection();
 		/** @var $sqlConnection \Doctrine\DBAL\Connection */
 		$sqlConnection->executeUpdate($sql);
