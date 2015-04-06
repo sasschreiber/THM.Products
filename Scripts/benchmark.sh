@@ -18,7 +18,7 @@ echo "Starting Benchmark..."
 # Clean database
 echo "Clearing database..."
 mysql -u $FLOW_USER -p$FLOW_PASS -e "DROP DATABASE $FLOW_DB"
-mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE flow CHARACTER SET utf8 COLLATE utf8_general_ci"
+mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE $FLOW_DB CHARACTER SET utf8 COLLATE utf8_general_ci"
 ./flow doctrine:create
 
 ######## 
@@ -35,7 +35,7 @@ printf "\n\n" >> $LOGFILE
 #Cleanup
 echo "Clearing database..."
 mysql -u $FLOW_USER -p$FLOW_PASS -e "DROP DATABASE $FLOW_DB"
-mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE flow CHARACTER SET utf8 COLLATE utf8_general_ci"
+mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE $FLOW_DB CHARACTER SET utf8 COLLATE utf8_general_ci"
 ./flow doctrine:create
 ./flow flow:cache:flush --force > /dev/null
 
@@ -73,7 +73,7 @@ printf "\n\n" >> $LOGFILE
 #Cleanup
 echo "Clearing database..."
 mysql -u $FLOW_USER -p$FLOW_PASS -e "DROP DATABASE $FLOW_DB"
-mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE flow CHARACTER SET utf8 COLLATE utf8_general_ci"
+mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE $FLOW_DB CHARACTER SET utf8 COLLATE utf8_general_ci"
 ./flow doctrine:create
 ./flow flow:cache:flush --force > /dev/null
 
@@ -91,7 +91,7 @@ printf "\n\n" >> $LOGFILE
 #Cleanup
 echo "Clearing database..."
 mysql -u $FLOW_USER -p$FLOW_PASS -e "DROP DATABASE $FLOW_DB"
-mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE flow CHARACTER SET utf8 COLLATE utf8_general_ci"
+mysql -u $FLOW_USER -p$FLOW_PASS -e "CREATE DATABASE $FLOW_DB CHARACTER SET utf8 COLLATE utf8_general_ci"
 ./flow doctrine:create
 ./flow flow:cache:flush --force > /dev/null
 
