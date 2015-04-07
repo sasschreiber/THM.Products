@@ -20,7 +20,7 @@ echo "Clearing database..."
 # First test: Flat hierarchy - no subproducts or properties
 echo "Running test #1 (Flat)..."
 printf "\n\n########### Flat Hierarchy Test ###########\n\n" >> $LOGFILE
-./flow benchmark:write --productsCount 500 --propertiesPerProduct 0 --childrenDepth 0 --childrenLength 0 --productsPerFlush 30 >> $LOGFILE
+./flow benchmark:write --productsCount 10000 --propertiesPerProduct 0 --childrenDepth 0 --childrenLength 0 --productsPerFlush 30 >> $LOGFILE
 printf "\n\n" >> $LOGFILE
 
 #Run readAllTopLevelProducts
@@ -38,7 +38,7 @@ echo "Clearing database..."
 # Second test: Many subproducts (references) but no properties
 echo "Running test #2 (Referencing)..."
 printf "\n\n########### Referencing Test ###########\n\n" >> $LOGFILE
-./flow benchmark:write --productsCount 100 --propertiesPerProduct 0 --childrenDepth 4 --childrenLength 1 --productsPerFlush 30 >> $LOGFILE
+./flow benchmark:write --productsCount 2000 --propertiesPerProduct 0 --childrenDepth 4 --childrenLength 1 --productsPerFlush 30 >> $LOGFILE
 printf "\n\n" >> $LOGFILE
 
 #Run readAllTopLevelProducts
@@ -54,7 +54,7 @@ echo "Clearing database..."
 # Third test: Many properties, embedded in the couch case
 echo "Running test #3 (Embedded properties)..."
 printf "\n\n########### Property Test ###########\n\n" >> $LOGFILE
-./flow benchmark:write --productsCount 500 --propertiesPerProduct 5 --childrenDepth 0 --childrenLength 0 --productsPerFlush 30 >> $LOGFILE
+./flow benchmark:write --productsCount 10000 --propertiesPerProduct 5 --childrenDepth 0 --childrenLength 0 --productsPerFlush 30 >> $LOGFILE
 printf "\n\n" >> $LOGFILE
 
 #Run readAllTopLevelProducts
@@ -70,7 +70,7 @@ echo "Clearing database..."
 # Fourth test: Combined case
 echo "Running test #4 (Combination)..."
 printf "\n\n########### Combination Test ###########\n\n" >> $LOGFILE
-./flow benchmark:write --productsCount 100 --propertiesPerProduct 5 --childrenDepth 4 --childrenLength 1 --productsPerFlush 30 >> $LOGFILE
+./flow benchmark:write --productsCount 2000 --propertiesPerProduct 5 --childrenDepth 4 --childrenLength 1 --productsPerFlush 30 >> $LOGFILE
 printf "\n\n" >> $LOGFILE
 
 #Run readAllTopLevelProducts
